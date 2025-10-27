@@ -7,6 +7,7 @@ import com.jshain.dda.product.message.DdaProductAddRs;
 import com.jshain.dda.product.message.DdaProductInqRq;
 import com.jshain.dda.product.message.DdaProductInqRs;
 import com.jshain.dda.product.message.DdaProductKey;
+import com.jshain.dda.product.message.DdaProductMo;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,8 +16,39 @@ public class DdaProductHandler {
 
 	private DdaProductDb ddaProductDb = new DdaProductDb();
 
-	public DdaProductAddRs add(DdaProductAddRq ddaProductRq) {
+	public DdaProductAddRs add(Connection connection, DdaProductAddRq ddaProductRq) throws SQLException {
 		DdaProductAddRs ddaProductAddRs = null;
+
+		// Extract the product from the request
+		DdaProductMo productMo = ddaProductRq.getDdaProduct();
+
+		if (productMo != null && productMo.getDdaProductKey() != null) {
+			// Create DdaProductDo and map fields
+			DdaProductDo productDo = new DdaProductDo();
+
+			// Map key fields
+			DdaProductKey key = productMo.getDdaProductKey();
+			productDo.setHoldingCompanyId(key.getHoldingCompanyId());
+			productDo.setBankId(key.getBankId());
+			productDo.setBranchId(key.getBranchId());
+			productDo.setProductId(key.getProductId());
+
+			// Map non-key fields
+			productDo.setProductDescription(productMo.getDescription());
+			productDo.setMinimumOpeningDeposit(productMo.getMinimumOpeningDeposit());
+			productDo.setMinimumBalance(productMo.getMinimumBalance());
+			productDo.setOverdraftLimit(productMo.getOverdraftLimit());
+			productDo.setApy(productMo.getApy());
+			productDo.setUpdatedBy(ddaProductRq.getRquid());
+
+			// Insert into database
+			int rowsAffected = ddaProductDb.insert(connection, productDo);
+
+			// TODO: Create and populate DdaProductAddRs based on insert result
+			if (rowsAffected > 0) {
+				ddaProductAddRs = new DdaProductAddRs();
+			}
+		}
 
 		return ddaProductAddRs;
 	}
