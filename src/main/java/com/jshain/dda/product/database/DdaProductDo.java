@@ -1,13 +1,27 @@
 package com.jshain.dda.product.database;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 /**
  * Data Object representing a DDA Product entity.
  */
 public class DdaProductDo {
+    // Key attributes
     private String holdingCompanyId;
     private String bankId;
     private String branchId;
     private String productId;
+
+    // Non-key attributes
+    private String productDescription;
+    private BigDecimal minimumOpeningDeposit;
+    private BigDecimal minimumBalance;
+    private BigDecimal overdraftLimit;
+    private BigDecimal apy;
+    private LocalDateTime insertDate;
+    private LocalDateTime updateDate;
+    private String updatedBy;
 
     /**
      * Default constructor
@@ -58,6 +72,70 @@ public class DdaProductDo {
         this.productId = productId;
     }
 
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public BigDecimal getMinimumOpeningDeposit() {
+        return minimumOpeningDeposit;
+    }
+
+    public void setMinimumOpeningDeposit(BigDecimal minimumOpeningDeposit) {
+        this.minimumOpeningDeposit = minimumOpeningDeposit;
+    }
+
+    public BigDecimal getMinimumBalance() {
+        return minimumBalance;
+    }
+
+    public void setMinimumBalance(BigDecimal minimumBalance) {
+        this.minimumBalance = minimumBalance;
+    }
+
+    public BigDecimal getOverdraftLimit() {
+        return overdraftLimit;
+    }
+
+    public void setOverdraftLimit(BigDecimal overdraftLimit) {
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    public BigDecimal getApy() {
+        return apy;
+    }
+
+    public void setApy(BigDecimal apy) {
+        this.apy = apy;
+    }
+
+    public LocalDateTime getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(LocalDateTime insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public String toString() {
         return "DdaProductDo{" +
@@ -65,6 +143,14 @@ public class DdaProductDo {
                 ", bankId='" + bankId + '\'' +
                 ", branchId='" + branchId + '\'' +
                 ", productId='" + productId + '\'' +
+                ", productDescription='" + productDescription + '\'' +
+                ", minimumOpeningDeposit=" + minimumOpeningDeposit +
+                ", minimumBalance=" + minimumBalance +
+                ", overdraftLimit=" + overdraftLimit +
+                ", apy=" + apy +
+                ", insertDate=" + insertDate +
+                ", updateDate=" + updateDate +
+                ", updatedBy='" + updatedBy + '\'' +
                 '}';
     }
 
