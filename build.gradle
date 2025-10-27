@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.jshain.dda.product'
+version = '1.0.0'
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JDBC API
+    implementation 'javax.sql:javax.sql-api:1.0'
+
+    // JUnit for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
