@@ -37,11 +37,12 @@ public class DdaProductDb {
     private static final String UPDATE_SQL =
         "UPDATE " + TABLE_NAME + " SET holding_company_id = ?, bank_id = ?, branch_id = ?, product_id = ?, " +
         "product_description = ?, minimum_opening_deposit = ?, minimum_balance = ?, overdraft_limit = ?, " +
-        "apy = ?, insert_date = ?, update_date = ?, updated_by = ? " +
+        "apy = ?, update_date = ?, updated_by = ? " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
     /**
      * Inserts a new DDA Product record into the database.
+     * Automatically sets both insert_date and update_date to the current timestamp.
      *
      * @param connection the database connection
      * @param product the DdaProductDo object to insert
@@ -50,6 +51,8 @@ public class DdaProductDb {
      */
     public int insert(Connection connection, DdaProductDo product) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_SQL)) {
+            LocalDateTime now = LocalDateTime.now();
+
             stmt.setString(1, product.getHoldingCompanyId());
             stmt.setString(2, product.getBankId());
             stmt.setString(3, product.getBranchId());
@@ -59,8 +62,8 @@ public class DdaProductDb {
             stmt.setBigDecimal(7, product.getMinimumBalance());
             stmt.setBigDecimal(8, product.getOverdraftLimit());
             stmt.setBigDecimal(9, product.getApy());
-            stmt.setTimestamp(10, product.getInsertDate() != null ? Timestamp.valueOf(product.getInsertDate()) : null);
-            stmt.setTimestamp(11, product.getUpdateDate() != null ? Timestamp.valueOf(product.getUpdateDate()) : null);
+            stmt.setTimestamp(10, Timestamp.valueOf(now));
+            stmt.setTimestamp(11, Timestamp.valueOf(now));
             stmt.setString(12, product.getUpdatedBy());
             return stmt.executeUpdate();
         }
@@ -145,6 +148,7 @@ public class DdaProductDb {
     /**
      * Updates an existing DDA Product record in the database.
      * This method uses the old values to identify the record and updates it with new values.
+     * Automatically sets update_date to the current timestamp; insert_date is never modified.
      *
      * @param connection the database connection
      * @param oldProduct the existing DdaProductDo object (used for WHERE clause)
@@ -154,6 +158,8 @@ public class DdaProductDb {
      */
     public int update(Connection connection, DdaProductDo oldProduct, DdaProductDo newProduct) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_SQL)) {
+            LocalDateTime now = LocalDateTime.now();
+
             // SET clause - new values
             stmt.setString(1, newProduct.getHoldingCompanyId());
             stmt.setString(2, newProduct.getBankId());
@@ -164,15 +170,14 @@ public class DdaProductDb {
             stmt.setBigDecimal(7, newProduct.getMinimumBalance());
             stmt.setBigDecimal(8, newProduct.getOverdraftLimit());
             stmt.setBigDecimal(9, newProduct.getApy());
-            stmt.setTimestamp(10, newProduct.getInsertDate() != null ? Timestamp.valueOf(newProduct.getInsertDate()) : null);
-            stmt.setTimestamp(11, newProduct.getUpdateDate() != null ? Timestamp.valueOf(newProduct.getUpdateDate()) : null);
-            stmt.setString(12, newProduct.getUpdatedBy());
+            stmt.setTimestamp(10, Timestamp.valueOf(now));
+            stmt.setString(11, newProduct.getUpdatedBy());
 
             // WHERE clause - old values
-            stmt.setString(13, oldProduct.getHoldingCompanyId());
-            stmt.setString(14, oldProduct.getBankId());
-            stmt.setString(15, oldProduct.getBranchId());
-            stmt.setString(16, oldProduct.getProductId());
+            stmt.setString(12, oldProduct.getHoldingCompanyId());
+            stmt.setString(13, oldProduct.getBankId());
+            stmt.setString(14, oldProduct.getBranchId());
+            stmt.setString(15, oldProduct.getProductId());
 
             return stmt.executeUpdate();
         }
@@ -180,6 +185,7 @@ public class DdaProductDb {
 
     /**
      * Updates a DDA Product record identified by its composite key.
+     * Automatically sets update_date to the current timestamp; insert_date is never modified.
      *
      * @param connection the database connection
      * @param holdingCompanyId the holding company ID (identifier)
@@ -193,6 +199,8 @@ public class DdaProductDb {
     public int updateById(Connection connection, String holdingCompanyId, String bankId,
                          String branchId, String productId, DdaProductDo updatedProduct) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_SQL)) {
+            LocalDateTime now = LocalDateTime.now();
+
             // SET clause - new values
             stmt.setString(1, updatedProduct.getHoldingCompanyId());
             stmt.setString(2, updatedProduct.getBankId());
@@ -203,15 +211,14 @@ public class DdaProductDb {
             stmt.setBigDecimal(7, updatedProduct.getMinimumBalance());
             stmt.setBigDecimal(8, updatedProduct.getOverdraftLimit());
             stmt.setBigDecimal(9, updatedProduct.getApy());
-            stmt.setTimestamp(10, updatedProduct.getInsertDate() != null ? Timestamp.valueOf(updatedProduct.getInsertDate()) : null);
-            stmt.setTimestamp(11, updatedProduct.getUpdateDate() != null ? Timestamp.valueOf(updatedProduct.getUpdateDate()) : null);
-            stmt.setString(12, updatedProduct.getUpdatedBy());
+            stmt.setTimestamp(10, Timestamp.valueOf(now));
+            stmt.setString(11, updatedProduct.getUpdatedBy());
 
             // WHERE clause - identifiers
-            stmt.setString(13, holdingCompanyId);
-            stmt.setString(14, bankId);
-            stmt.setString(15, branchId);
-            stmt.setString(16, productId);
+            stmt.setString(12, holdingCompanyId);
+            stmt.setString(13, bankId);
+            stmt.setString(14, branchId);
+            stmt.setString(15, productId);
 
             return stmt.executeUpdate();
         }
