@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
  * Represents a history record containing old and new versions of a DDA Product.
  */
 public class DdaProductHistoryDo {
+	private String rquid;
     private DdaProductDo oldProduct;
     private DdaProductDo newProduct;
     private LocalDateTime historyInsertDate;
@@ -13,13 +14,22 @@ public class DdaProductHistoryDo {
     public DdaProductHistoryDo() {
     }
 
-    public DdaProductHistoryDo(DdaProductDo oldProduct, DdaProductDo newProduct, LocalDateTime historyInsertDate) {
+    public DdaProductHistoryDo(String rquid, DdaProductDo oldProduct, DdaProductDo newProduct, LocalDateTime historyInsertDate) {
+    	this.rquid = rquid;
         this.oldProduct = oldProduct;
         this.newProduct = newProduct;
         this.historyInsertDate = historyInsertDate;
     }
+    
+    public String getRquid() {
+		return rquid;
+	}
 
-    public DdaProductDo getOldProduct() {
+	public void setRquid(String rquid) {
+		this.rquid = rquid;
+	}
+
+	public DdaProductDo getOldProduct() {
         return oldProduct;
     }
 

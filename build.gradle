@@ -13,14 +13,14 @@ repositories {
 }
 
 dependencies {
-    // JDBC API
-    implementation 'javax.sql:javax.sql-api:1.0'
+  // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+  implementation 'com.mysql:mysql-connector-j:9.4.0'
 
-    // JUnit for testing
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  // JUnit for testing
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
