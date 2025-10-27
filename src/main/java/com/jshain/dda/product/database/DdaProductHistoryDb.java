@@ -47,57 +47,6 @@ public class DdaProductHistoryDb {
         "ORDER BY history_insert_date DESC";
 
     /**
-     * Represents a history record containing old and new versions of a DDA Product.
-     */
-    public static class DdaProductHistoryRecord {
-        private DdaProductDo oldProduct;
-        private DdaProductDo newProduct;
-        private LocalDateTime historyInsertDate;
-
-        public DdaProductHistoryRecord() {
-        }
-
-        public DdaProductHistoryRecord(DdaProductDo oldProduct, DdaProductDo newProduct, LocalDateTime historyInsertDate) {
-            this.oldProduct = oldProduct;
-            this.newProduct = newProduct;
-            this.historyInsertDate = historyInsertDate;
-        }
-
-        public DdaProductDo getOldProduct() {
-            return oldProduct;
-        }
-
-        public void setOldProduct(DdaProductDo oldProduct) {
-            this.oldProduct = oldProduct;
-        }
-
-        public DdaProductDo getNewProduct() {
-            return newProduct;
-        }
-
-        public void setNewProduct(DdaProductDo newProduct) {
-            this.newProduct = newProduct;
-        }
-
-        public LocalDateTime getHistoryInsertDate() {
-            return historyInsertDate;
-        }
-
-        public void setHistoryInsertDate(LocalDateTime historyInsertDate) {
-            this.historyInsertDate = historyInsertDate;
-        }
-
-        @Override
-        public String toString() {
-            return "DdaProductHistoryRecord{" +
-                    "oldProduct=" + oldProduct +
-                    ", newProduct=" + newProduct +
-                    ", historyInsertDate=" + historyInsertDate +
-                    '}';
-        }
-    }
-
-    /**
      * Inserts a new history record containing both old and new versions of a DDA Product.
      * Automatically sets history_insert_date to the current timestamp.
      *
@@ -149,11 +98,11 @@ public class DdaProductHistoryDb {
      * Records are ordered by history_insert_date in descending order (most recent first).
      *
      * @param connection the database connection
-     * @return a list of DdaProductHistoryRecord objects
+     * @return a list of DdaProductHistoryDo objects
      * @throws SQLException if a database error occurs
      */
-    public List<DdaProductHistoryRecord> selectAll(Connection connection) throws SQLException {
-        List<DdaProductHistoryRecord> historyRecords = new ArrayList<>();
+    public List<DdaProductHistoryDo> selectAll(Connection connection) throws SQLException {
+        List<DdaProductHistoryDo> historyRecords = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(SELECT_ALL_SQL);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -172,12 +121,12 @@ public class DdaProductHistoryDb {
      * @param bankId the bank ID
      * @param branchId the branch ID
      * @param productId the product ID
-     * @return a list of DdaProductHistoryRecord objects for the specified product
+     * @return a list of DdaProductHistoryDo objects for the specified product
      * @throws SQLException if a database error occurs
      */
-    public List<DdaProductHistoryRecord> selectById(Connection connection, String holdingCompanyId,
+    public List<DdaProductHistoryDo> selectById(Connection connection, String holdingCompanyId,
                                                      String bankId, String branchId, String productId) throws SQLException {
-        List<DdaProductHistoryRecord> historyRecords = new ArrayList<>();
+        List<DdaProductHistoryDo> historyRecords = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             stmt.setString(1, holdingCompanyId);
             stmt.setString(2, bankId);
@@ -194,14 +143,14 @@ public class DdaProductHistoryDb {
     }
 
     /**
-     * Helper method to extract a DdaProductHistoryRecord from a ResultSet.
+     * Helper method to extract a DdaProductHistoryDo from a ResultSet.
      *
      * @param rs the ResultSet to extract from
-     * @return a DdaProductHistoryRecord object
+     * @return a DdaProductHistoryDo object
      * @throws SQLException if a database error occurs
      */
-    private DdaProductHistoryRecord extractHistoryRecord(ResultSet rs) throws SQLException {
-        DdaProductHistoryRecord record = new DdaProductHistoryRecord();
+    private DdaProductHistoryDo extractHistoryRecord(ResultSet rs) throws SQLException {
+        DdaProductHistoryDo record = new DdaProductHistoryDo();
 
         // Extract key attributes
         String holdingCompanyId = rs.getString("holding_company_id");
