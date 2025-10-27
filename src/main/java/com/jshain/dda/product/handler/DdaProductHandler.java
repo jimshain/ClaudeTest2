@@ -1,5 +1,6 @@
 package com.jshain.dda.product.handler;
 
+import com.jshain.database.Database;
 import com.jshain.dda.product.database.DdaProductDb;
 import com.jshain.dda.product.database.DdaProductDo;
 import com.jshain.dda.product.message.DdaProductAddRq;
@@ -21,13 +22,16 @@ public class DdaProductHandler {
 		return ddaProductAddRs;
 	}
 
-	public DdaProductInqRs inq(Connection connection, DdaProductInqRq ddaProductInqRq) throws SQLException {
+	public DdaProductInqRs inq(DdaProductInqRq ddaProductInqRq) throws SQLException {
 		DdaProductInqRs ddaProductInqRs = null;
 
 		// Extract the key from the request
 		DdaProductKey key = ddaProductInqRq.getDdaProductKey();
 
 		if (key != null) {
+			// Get database connection
+			Connection connection = Database.getConnection();
+
 			// Map the key fields to the database query
 			DdaProductDo productDo = ddaProductDb.selectById(
 				connection,
