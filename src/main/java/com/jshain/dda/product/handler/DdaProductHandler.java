@@ -1,11 +1,19 @@
 package com.jshain.dda.product.handler;
 
+import com.jshain.dda.product.database.DdaProductDb;
+import com.jshain.dda.product.database.DdaProductDo;
 import com.jshain.dda.product.message.DdaProductAddRq;
 import com.jshain.dda.product.message.DdaProductAddRs;
 import com.jshain.dda.product.message.DdaProductInqRq;
 import com.jshain.dda.product.message.DdaProductInqRs;
+import com.jshain.dda.product.message.DdaProductKey;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class DdaProductHandler {
+
+	private DdaProductDb ddaProductDb = new DdaProductDb();
 
 	public DdaProductAddRs add(DdaProductAddRq ddaProductRq) {
 		DdaProductAddRs ddaProductAddRs = null;
@@ -13,8 +21,27 @@ public class DdaProductHandler {
 		return ddaProductAddRs;
 	}
 
-	public DdaProductInqRs inq(DdaProductInqRq ddaProductInqRq) {
+	public DdaProductInqRs inq(Connection connection, DdaProductInqRq ddaProductInqRq) throws SQLException {
 		DdaProductInqRs ddaProductInqRs = null;
+
+		// Extract the key from the request
+		DdaProductKey key = ddaProductInqRq.getDdaProductKey();
+
+		if (key != null) {
+			// Map the key fields to the database query
+			DdaProductDo productDo = ddaProductDb.selectById(
+				connection,
+				key.getHoldingCompanyId(),
+				key.getBankId(),
+				key.getBranchId(),
+				key.getProductId()
+			);
+
+			// TODO: Map productDo to ddaProductInqRs when response structure is defined
+			if (productDo != null) {
+				ddaProductInqRs = new DdaProductInqRs();
+			}
+		}
 
 		return ddaProductInqRs;
 	}
