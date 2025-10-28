@@ -22,6 +22,9 @@ public class DdaProductHandler {
 	public DdaProductAddRs add(DdaProductAddRq ddaProductRq) throws SQLException {
 		DdaProductAddRs ddaProductAddRs = new DdaProductAddRs();
 
+		// Set response rquid from request
+		ddaProductAddRs.setRquid(ddaProductRq.getRquid());
+
 		// Get database connection
 		Connection connection = Database.getConnection();
 
@@ -78,6 +81,8 @@ public class DdaProductHandler {
 			// TODO: Map productDo to ddaProductInqRs when response structure is defined
 			if (productDo != null) {
 				ddaProductInqRs = new DdaProductInqRs();
+				// Set response rquid from request
+				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
 			}
 		}
 
@@ -86,6 +91,9 @@ public class DdaProductHandler {
 
 	public DdaProductDelRs del(DdaProductDelRq ddaProductDelRq) throws SQLException {
 		DdaProductDelRs ddaProductDelRs = new DdaProductDelRs();
+
+		// Set response rquid from request
+		ddaProductDelRs.setRquid(ddaProductDelRq.getRquid());
 
 		// Extract the key from the request
 		DdaProductKey key = ddaProductDelRq.getDdaProductKey();
@@ -106,9 +114,6 @@ public class DdaProductHandler {
 
 			// Perform soft delete
 			ddaProductDb.delete(connection, productDo);
-
-			// Set response rquid
-			ddaProductDelRs.setRquid(ddaProductDelRq.getRquid());
 		}
 
 		return ddaProductDelRs;
