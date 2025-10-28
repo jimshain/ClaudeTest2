@@ -60,12 +60,8 @@ public class DdaProductHandler {
 		}
 
 		// Add success status
-		Status status = new Status();
-		status.setCode("100");
-		status.setSeverity("0");
-		status.setMessage("Success");
 		List<Status> statusList = new ArrayList<>();
-		statusList.add(status);
+		statusList.add(Status.getSuccess());
 		ddaProductAddRs.setStatus(statusList);
 
 		return ddaProductAddRs;
@@ -97,12 +93,8 @@ public class DdaProductHandler {
 				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
 
 				// Add success status
-				Status status = new Status();
-				status.setCode("100");
-				status.setSeverity("0");
-				status.setMessage("Success");
 				List<Status> statusList = new ArrayList<>();
-				statusList.add(status);
+				statusList.add(Status.getSuccess());
 				ddaProductInqRs.setStatus(statusList);
 			}
 		}
@@ -138,12 +130,8 @@ public class DdaProductHandler {
 		}
 
 		// Add success status
-		Status status = new Status();
-		status.setCode("100");
-		status.setSeverity("0");
-		status.setMessage("Success");
 		List<Status> statusList = new ArrayList<>();
-		statusList.add(status);
+		statusList.add(Status.getSuccess());
 		ddaProductDelRs.setStatus(statusList);
 
 		return ddaProductDelRs;
