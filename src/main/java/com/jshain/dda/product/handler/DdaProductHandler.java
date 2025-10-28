@@ -11,9 +11,12 @@ import com.jshain.dda.product.message.DdaProductInqRq;
 import com.jshain.dda.product.message.DdaProductInqRs;
 import com.jshain.dda.product.message.DdaProductKey;
 import com.jshain.dda.product.message.DdaProductMo;
+import com.jshain.dda.product.message.Status;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DdaProductHandler {
 
@@ -56,6 +59,15 @@ public class DdaProductHandler {
 			ddaProductDb.insert(connection, productDo);
 		}
 
+		// Add success status
+		Status status = new Status();
+		status.setCode("100");
+		status.setSeverity("0");
+		status.setMessage("Success");
+		List<Status> statusList = new ArrayList<>();
+		statusList.add(status);
+		ddaProductAddRs.setStatus(statusList);
+
 		return ddaProductAddRs;
 	}
 
@@ -83,6 +95,15 @@ public class DdaProductHandler {
 				ddaProductInqRs = new DdaProductInqRs();
 				// Set response rquid from request
 				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
+
+				// Add success status
+				Status status = new Status();
+				status.setCode("100");
+				status.setSeverity("0");
+				status.setMessage("Success");
+				List<Status> statusList = new ArrayList<>();
+				statusList.add(status);
+				ddaProductInqRs.setStatus(statusList);
 			}
 		}
 
@@ -115,6 +136,15 @@ public class DdaProductHandler {
 			// Perform soft delete
 			ddaProductDb.delete(connection, productDo);
 		}
+
+		// Add success status
+		Status status = new Status();
+		status.setCode("100");
+		status.setSeverity("0");
+		status.setMessage("Success");
+		List<Status> statusList = new ArrayList<>();
+		statusList.add(status);
+		ddaProductDelRs.setStatus(statusList);
 
 		return ddaProductDelRs;
 	}
