@@ -40,6 +40,10 @@ public class DdaProductDb {
         "apy = ?, update_date = ?, updated_by = ? " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
+    private static final String DELETE_SQL =
+        "UPDATE " + TABLE_NAME + " SET delete_flag = 'Y', update_date = ?, updated_by = ? " +
+        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
+
     /**
      * Inserts a new DDA Product record into the database.
      * Automatically sets both insert_date and update_date to the current timestamp.
@@ -219,6 +223,33 @@ public class DdaProductDb {
             stmt.setString(13, bankId);
             stmt.setString(14, branchId);
             stmt.setString(15, productId);
+
+            return stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Soft deletes a DDA Product record by setting the delete_flag to 'Y'.
+     * Automatically sets update_date to the current timestamp.
+     *
+     * @param connection the database connection
+     * @param product the DdaProductDo object to delete
+     * @return the number of rows affected
+     * @throws SQLException if a database error occurs
+     */
+    public int delete(Connection connection, DdaProductDo product) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(DELETE_SQL)) {
+            LocalDateTime now = LocalDateTime.now();
+
+            // SET clause
+            stmt.setTimestamp(1, Timestamp.valueOf(now));
+            stmt.setString(2, product.getUpdatedBy());
+
+            // WHERE clause - composite key
+            stmt.setString(3, product.getHoldingCompanyId());
+            stmt.setString(4, product.getBankId());
+            stmt.setString(5, product.getBranchId());
+            stmt.setString(6, product.getProductId());
 
             return stmt.executeUpdate();
         }
