@@ -26,13 +26,15 @@ public class DdaProductDb {
     private static final String SELECT_ALL_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
         "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
-        "insert_date, update_date, updated_by FROM " + TABLE_NAME;
+        "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
+        "WHERE (delete_flag = false OR delete_flag IS NULL)";
 
     private static final String SELECT_BY_ID_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
         "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
         "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
-        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
+        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ? " +
+        "AND (delete_flag = false OR delete_flag IS NULL)";
 
     private static final String UPDATE_SQL =
         "UPDATE " + TABLE_NAME + " SET holding_company_id = ?, bank_id = ?, branch_id = ?, product_id = ?, " +
