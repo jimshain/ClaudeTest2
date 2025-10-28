@@ -1,17 +1,10 @@
 package com.jshain.dda.product.message;
 
-public class DdaProductDelRq {
+import com.jshain.message.MessageRq;
 
-	private String rquid;
+public class DdaProductDelRq extends MessageRq {
+
 	private DdaProductKey ddaProductKey;
-
-	public String getRquid() {
-		return rquid;
-	}
-
-	public void setRquid(String rquid) {
-		this.rquid = rquid;
-	}
 
 	public DdaProductKey getDdaProductKey() {
 		return ddaProductKey;
