@@ -29,4 +29,18 @@ public class Status {
 		this.message = message;
 	}
 
+	/**
+	 * Returns a Status object representing a successful operation.
+	 * Code: 100, Severity: 0, Message: Success
+	 *
+	 * @return Status object with success values
+	 */
+	public static Status getSuccess() {
+		Status status = new Status();
+		status.setCode("100");
+		status.setSeverity("0");
+		status.setMessage("Success");
+		return status;
+	}
+
 } // Class end

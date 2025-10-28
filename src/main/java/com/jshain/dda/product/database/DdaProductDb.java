@@ -26,18 +26,24 @@ public class DdaProductDb {
     private static final String SELECT_ALL_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
         "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
-        "insert_date, update_date, updated_by FROM " + TABLE_NAME;
+        "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
+        "WHERE (delete_flag = false OR delete_flag IS NULL)";
 
     private static final String SELECT_BY_ID_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
         "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
         "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
-        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
+        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ? " +
+        "AND (delete_flag = false OR delete_flag IS NULL)";
 
     private static final String UPDATE_SQL =
         "UPDATE " + TABLE_NAME + " SET holding_company_id = ?, bank_id = ?, branch_id = ?, product_id = ?, " +
         "product_description = ?, minimum_opening_deposit = ?, minimum_balance = ?, overdraft_limit = ?, " +
         "apy = ?, update_date = ?, updated_by = ? " +
+        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
+
+    private static final String DELETE_SQL =
+        "UPDATE " + TABLE_NAME + " SET delete_flag = true, update_date = ?, updated_by = ? " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
     /**
@@ -219,6 +225,33 @@ public class DdaProductDb {
             stmt.setString(13, bankId);
             stmt.setString(14, branchId);
             stmt.setString(15, productId);
+
+            return stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Soft deletes a DDA Product record by setting the delete_flag to true.
+     * Automatically sets update_date to the current timestamp.
+     *
+     * @param connection the database connection
+     * @param product the DdaProductDo object to delete
+     * @return the number of rows affected
+     * @throws SQLException if a database error occurs
+     */
+    public int delete(Connection connection, DdaProductDo product) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(DELETE_SQL)) {
+            LocalDateTime now = LocalDateTime.now();
+
+            // SET clause
+            stmt.setTimestamp(1, Timestamp.valueOf(now));
+            stmt.setString(2, product.getUpdatedBy());
+
+            // WHERE clause - composite key
+            stmt.setString(3, product.getHoldingCompanyId());
+            stmt.setString(4, product.getBankId());
+            stmt.setString(5, product.getBranchId());
+            stmt.setString(6, product.getProductId());
 
             return stmt.executeUpdate();
         }

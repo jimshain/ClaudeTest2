@@ -1,5 +1,7 @@
 package com.jshain.dda.product.message;
 
-public class DdaProductInqRs {
+import com.jshain.message.MessageRs;
+
+public class DdaProductInqRs extends MessageRs {
 
 }
