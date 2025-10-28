@@ -16,8 +16,13 @@ public class DdaProductHandler {
 
 	private DdaProductDb ddaProductDb = new DdaProductDb();
 
-	public DdaProductAddRs add(DdaProductAddRq ddaProductRq) {
+	public DdaProductAddRs add(DdaProductAddRq ddaProductRq) throws SQLException {
 		DdaProductAddRs ddaProductAddRs = null;
+
+		// Get database connection
+		Connection connection = Database.getConnection();
+
+		// TODO: Implement add logic using ddaProductDb.insert(connection, productDo)
 
 		return ddaProductAddRs;
 	}
