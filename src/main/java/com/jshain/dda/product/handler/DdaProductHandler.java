@@ -60,7 +60,7 @@ public class DdaProductHandler {
 		// Add success status
 		ddaProductAddRs.getStatus().add(Status.getSuccess());
 
-		return ddaProductAddRs;
+    return ddaProductAddRs;
 	}
 
 	public DdaProductInqRs inq(DdaProductInqRq ddaProductInqRq) throws SQLException {
