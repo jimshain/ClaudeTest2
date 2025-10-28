@@ -15,8 +15,6 @@ import com.jshain.dda.product.message.Status;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DdaProductHandler {
 
@@ -60,9 +58,7 @@ public class DdaProductHandler {
 		}
 
 		// Add success status
-		List<Status> statusList = new ArrayList<>();
-		statusList.add(Status.getSuccess());
-		ddaProductAddRs.setStatus(statusList);
+		ddaProductAddRs.getStatus().add(Status.getSuccess());
 
 		return ddaProductAddRs;
 	}
@@ -93,9 +89,7 @@ public class DdaProductHandler {
 				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
 
 				// Add success status
-				List<Status> statusList = new ArrayList<>();
-				statusList.add(Status.getSuccess());
-				ddaProductInqRs.setStatus(statusList);
+				ddaProductInqRs.getStatus().add(Status.getSuccess());
 			}
 		}
 
@@ -130,9 +124,7 @@ public class DdaProductHandler {
 		}
 
 		// Add success status
-		List<Status> statusList = new ArrayList<>();
-		statusList.add(Status.getSuccess());
-		ddaProductDelRs.setStatus(statusList);
+		ddaProductDelRs.getStatus().add(Status.getSuccess());
 
 		return ddaProductDelRs;
 	}

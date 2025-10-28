@@ -1,6 +1,7 @@
 package com.jshain.message;
 
 import com.jshain.dda.product.message.Status;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 public class MessageRs {
 
 	private String rquid;
-	private List<Status> status;
+	private List<Status> status = new ArrayList<>();
 
 	public String getRquid() {
 		return rquid;
