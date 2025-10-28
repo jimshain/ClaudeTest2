@@ -41,7 +41,7 @@ public class DdaProductDb {
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
     private static final String DELETE_SQL =
-        "UPDATE " + TABLE_NAME + " SET delete_flag = 'Y', update_date = ?, updated_by = ? " +
+        "UPDATE " + TABLE_NAME + " SET delete_flag = true, update_date = ?, updated_by = ? " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
     /**
@@ -229,7 +229,7 @@ public class DdaProductDb {
     }
 
     /**
-     * Soft deletes a DDA Product record by setting the delete_flag to 'Y'.
+     * Soft deletes a DDA Product record by setting the delete_flag to true.
      * Automatically sets update_date to the current timestamp.
      *
      * @param connection the database connection
