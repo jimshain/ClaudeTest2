@@ -1,17 +1,7 @@
 package com.jshain.dda.product.message;
 
-import java.util.List;
+import com.jshain.message.MessageRs;
 
-public class DdaProductAddRs {
-
-	private List<Status> status;
-
-	public List<Status> getStatus() {
-		return status;
-	}
-
-	public void setStatus(List<Status> status) {
-		this.status = status;
-	}
+public class DdaProductAddRs extends MessageRs {
 
 } // Class end

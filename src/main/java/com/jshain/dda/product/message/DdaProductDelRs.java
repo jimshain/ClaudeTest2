@@ -1,11 +1,10 @@
 package com.jshain.dda.product.message;
 
-import java.util.List;
+import com.jshain.message.MessageRs;
 
-public class DdaProductDelRs {
+public class DdaProductDelRs extends MessageRs {
 
 	private String rquid;
-	private List<Status> status;
 
 	public String getRquid() {
 		return rquid;
@@ -13,14 +12,6 @@ public class DdaProductDelRs {
 
 	public void setRquid(String rquid) {
 		this.rquid = rquid;
-	}
-
-	public List<Status> getStatus() {
-		return status;
-	}
-
-	public void setStatus(List<Status> status) {
-		this.status = status;
 	}
 
 } // Class end
