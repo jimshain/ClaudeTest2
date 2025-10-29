@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 import com.jshain.dda.product.handler.DdaProductHandler;
 import com.jshain.dda.product.message.DdaProductAddRq;
 import com.jshain.dda.product.message.DdaProductAddRs;
+import com.jshain.dda.product.message.DdaProductInqRq;
+import com.jshain.dda.product.message.DdaProductInqRs;
 import com.jshain.gson.LocalDateAdapter;
 import com.jshain.gson.LocalDateTimeAdapter;
 
@@ -53,6 +55,33 @@ public class DdaProductServer {
 					DdaProductAddRs ddaProductAddRs = DdaProductHandler.add(ddaProductAddRq);
 
 					response.putHeader("content-type", "application/json").end(gson.toJson(ddaProductAddRs));
+				} catch (Exception e) {
+					e.printStackTrace();
+					response.setStatusCode(500).putHeader("content-type", "application/json").end(INTERNAL_SERVER_ERROR);
+				}
+			});
+
+		});
+
+		router.post("/ddaproductinq").handler(ctx -> {
+
+			// This handler will be called for every request
+			HttpServerResponse response = ctx.response();
+
+			Thread.ofVirtual().start(() -> {
+				try {
+					if (ctx.body() == null || ctx.body().asString() == null) {
+						ctx.response().setStatusCode(400).putHeader("content-type", "application/json").end(MISSING_BODY);
+					}
+
+					String message = ctx.body().asString();
+
+					DdaProductInqRq ddaProductInqRq = gson.fromJson(message, DdaProductInqRq.class);
+
+					DdaProductHandler handler = new DdaProductHandler();
+					DdaProductInqRs ddaProductInqRs = handler.inq(ddaProductInqRq);
+
+					response.putHeader("content-type", "application/json").end(gson.toJson(ddaProductInqRs));
 				} catch (Exception e) {
 					e.printStackTrace();
 					response.setStatusCode(500).putHeader("content-type", "application/json").end(INTERNAL_SERVER_ERROR);
