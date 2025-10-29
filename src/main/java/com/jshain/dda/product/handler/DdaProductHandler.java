@@ -85,14 +85,32 @@ public class DdaProductHandler {
 				key.getProductId()
 			);
 
-			// Set productDo directly on the response
+			// Map productDo to productMo
 			if (productDo != null) {
 				ddaProductInqRs = new DdaProductInqRs();
 				// Set response rquid from request
 				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
 
-				// Set the data object directly on the response
-				ddaProductInqRs.setDdaProduct(productDo);
+				// Create and populate DdaProductMo
+				DdaProductMo productMo = new DdaProductMo();
+
+				// Create and set key
+				DdaProductKey productKey = new DdaProductKey();
+				productKey.setHoldingCompanyId(productDo.getHoldingCompanyId());
+				productKey.setBankId(productDo.getBankId());
+				productKey.setBranchId(productDo.getBranchId());
+				productKey.setProductId(productDo.getProductId());
+				productMo.setDdaProductKey(productKey);
+
+				// Map non-key fields
+				productMo.setDescription(productDo.getProductDescription());
+				productMo.setMinimumOpeningDeposit(productDo.getMinimumOpeningDeposit());
+				productMo.setMinimumBalance(productDo.getMinimumBalance());
+				productMo.setOverdraftLimit(productDo.getOverdraftLimit());
+				productMo.setApy(productDo.getApy());
+
+				// Set the product on the response
+				ddaProductInqRs.setDdaProduct(productMo);
 
 				// Add success status
 				ddaProductInqRs.getStatus().add(Status.getSuccess());
