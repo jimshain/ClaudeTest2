@@ -12,5 +12,5 @@ public class DdaProductInqRs extends MessageRs {
 	public void setDdaProduct(DdaProductMo ddaProduct) {
 		this.ddaProduct = ddaProduct;
 	}
-  
+
 } // Class end

@@ -76,7 +76,7 @@ public class DdaProductHandler {
 			// Get database connection
 			Connection connection = Database.getConnection();
 
-			// Map the key fields to the database query
+			// Query the database for the product
 			DdaProductDo productDo = DdaProductDb.selectById(
 				connection,
 				key.getHoldingCompanyId(),
@@ -85,7 +85,7 @@ public class DdaProductHandler {
 				key.getProductId()
 			);
 
-			// Map productDo to ddaProductInqRs
+			// Map productDo to productMo
 			if (productDo != null) {
 				ddaProductInqRs = new DdaProductInqRs();
 				// Set response rquid from request
