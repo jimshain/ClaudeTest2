@@ -43,4 +43,18 @@ public class Status {
 		return status;
 	}
 
+	/**
+	 * Returns a Status object representing a successful operation.
+	 * Code: 100, Severity: 0, Message: Success
+	 *
+	 * @return Status object with success values
+	 */
+	public static Status getFatalError() {
+		Status status = new Status();
+		status.setCode("999");
+		status.setSeverity("999");
+		status.setMessage("Process failed! Contact support.");
+		return status;
+	}
+
 } // Class end

@@ -55,7 +55,7 @@ public class DdaProductDb {
      * @return the number of rows affected
      * @throws SQLException if a database error occurs
      */
-    public int insert(Connection connection, DdaProductDo product) throws SQLException {
+    public static int insert(Connection connection, DdaProductDo product) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_SQL)) {
             LocalDateTime now = LocalDateTime.now();
 
@@ -82,7 +82,7 @@ public class DdaProductDb {
      * @return a list of DdaProductDo objects
      * @throws SQLException if a database error occurs
      */
-    public List<DdaProductDo> selectAll(Connection connection) throws SQLException {
+    public static List<DdaProductDo> selectAll(Connection connection) throws SQLException {
         List<DdaProductDo> products = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(SELECT_ALL_SQL);
              ResultSet rs = stmt.executeQuery()) {
@@ -119,7 +119,7 @@ public class DdaProductDb {
      * @return the DdaProductDo object if found, null otherwise
      * @throws SQLException if a database error occurs
      */
-    public DdaProductDo selectById(Connection connection, String holdingCompanyId,
+    public static DdaProductDo selectById(Connection connection, String holdingCompanyId,
                                    String bankId, String branchId, String productId) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             stmt.setString(1, holdingCompanyId);
@@ -162,7 +162,7 @@ public class DdaProductDb {
      * @return the number of rows affected
      * @throws SQLException if a database error occurs
      */
-    public int update(Connection connection, DdaProductDo oldProduct, DdaProductDo newProduct) throws SQLException {
+    public static int update(Connection connection, DdaProductDo oldProduct, DdaProductDo newProduct) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_SQL)) {
             LocalDateTime now = LocalDateTime.now();
 
@@ -202,7 +202,7 @@ public class DdaProductDb {
      * @return the number of rows affected
      * @throws SQLException if a database error occurs
      */
-    public int updateById(Connection connection, String holdingCompanyId, String bankId,
+    public static int updateById(Connection connection, String holdingCompanyId, String bankId,
                          String branchId, String productId, DdaProductDo updatedProduct) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_SQL)) {
             LocalDateTime now = LocalDateTime.now();
@@ -239,7 +239,7 @@ public class DdaProductDb {
      * @return the number of rows affected
      * @throws SQLException if a database error occurs
      */
-    public int delete(Connection connection, DdaProductDo product) throws SQLException {
+    public static int delete(Connection connection, DdaProductDo product) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(DELETE_SQL)) {
             LocalDateTime now = LocalDateTime.now();
 

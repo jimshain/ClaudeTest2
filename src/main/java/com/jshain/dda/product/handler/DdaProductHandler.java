@@ -18,13 +18,12 @@ import java.sql.SQLException;
 
 public class DdaProductHandler {
 
-	private DdaProductDb ddaProductDb = new DdaProductDb();
-
-	public DdaProductAddRs add(DdaProductAddRq ddaProductRq) throws SQLException {
+	public static DdaProductAddRs add(DdaProductAddRq ddaProductRq) {
 		DdaProductAddRs ddaProductAddRs = new DdaProductAddRs();
 
 		// Set response rquid from request
 		ddaProductAddRs.setRquid(ddaProductRq.getRquid());
+		try {
 
 		// Get database connection
 		Connection connection = Database.getConnection();
@@ -54,13 +53,17 @@ public class DdaProductHandler {
 			productDo.setUpdatedBy(ddaProductRq.getRquid());
 
 			// Insert the product into the database
-			ddaProductDb.insert(connection, productDo);
+			DdaProductDb.insert(connection, productDo);
 		}
 
 		// Add success status
 		ddaProductAddRs.getStatus().add(Status.getSuccess());
+		} catch (Exception e) {
+			e.printStackTrace();
+			ddaProductAddRs.getStatus().add(Status.getFatalError());
+		}
 
-    return ddaProductAddRs;
+		return ddaProductAddRs;
 	}
 
 	public DdaProductInqRs inq(DdaProductInqRq ddaProductInqRq) throws SQLException {
@@ -74,7 +77,7 @@ public class DdaProductHandler {
 			Connection connection = Database.getConnection();
 
 			// Map the key fields to the database query
-			DdaProductDo productDo = ddaProductDb.selectById(
+			DdaProductDo productDo = DdaProductDb.selectById(
 				connection,
 				key.getHoldingCompanyId(),
 				key.getBankId(),
@@ -141,7 +144,7 @@ public class DdaProductHandler {
 			productDo.setUpdatedBy(ddaProductDelRq.getRquid());
 
 			// Perform soft delete
-			ddaProductDb.delete(connection, productDo);
+			DdaProductDb.delete(connection, productDo);
 		}
 
 		// Add success status

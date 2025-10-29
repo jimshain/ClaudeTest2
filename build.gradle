@@ -5,16 +5,17 @@ plugins {
 group = 'com.jshain.dda.product'
 version = '1.0.0'
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
+sourceCompatibility = '21'
+targetCompatibility = '21'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-  // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
   implementation 'com.mysql:mysql-connector-j:9.4.0'
+  implementation 'io.vertx:vertx-web:5.0.5'
+  implementation 'com.google.code.gson:gson:2.13.2'
 
   // JUnit for testing
   testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
