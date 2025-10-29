@@ -27,14 +27,14 @@ public class DdaProductDb {
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
         "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
         "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
-        "WHERE (delete_flag = false OR delete_flag IS NULL)";
+        "WHERE (delete_flag = 0 OR delete_flag IS NULL)";
 
     private static final String SELECT_BY_ID_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
         "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
         "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ? " +
-        "AND (delete_flag = false OR delete_flag IS NULL)";
+        "AND (delete_flag = 0 OR delete_flag IS NULL)";
 
     private static final String UPDATE_SQL =
         "UPDATE " + TABLE_NAME + " SET holding_company_id = ?, bank_id = ?, branch_id = ?, product_id = ?, " +
@@ -43,7 +43,7 @@ public class DdaProductDb {
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
     private static final String DELETE_SQL =
-        "UPDATE " + TABLE_NAME + " SET delete_flag = true, update_date = ?, updated_by = ? " +
+        "UPDATE " + TABLE_NAME + " SET delete_flag = 1, update_date = ?, updated_by = ? " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
     /**
