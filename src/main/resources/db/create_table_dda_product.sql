@@ -7,6 +7,7 @@ CREATE TABLE dda_product (
     minimum_opening_deposit INTEGER,
     minimum_balance INTEGER,
     overdraft_limit INTEGER,
+    overdraft_fee INTEGER,
     apy NUMERIC,
     insert_date TEXT DEFAULT CURRENT_TIMESTAMP,
     update_date TEXT DEFAULT CURRENT_TIMESTAMP,

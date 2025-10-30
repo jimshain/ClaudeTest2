@@ -107,6 +107,7 @@ public class DdaProductHandler {
 				productDo.setMinimumOpeningDeposit(productMo.getMinimumOpeningDeposit());
 				productDo.setMinimumBalance(productMo.getMinimumBalance());
 				productDo.setOverdraftLimit(productMo.getOverdraftLimit());
+				productDo.setOverdraftFee(productMo.getOverdraftFee());
 				productDo.setApy(productMo.getApy());
 
 				// Set updated by field (using request ID as default)
@@ -169,6 +170,7 @@ public class DdaProductHandler {
 				productMo.setMinimumOpeningDeposit(productDo.getMinimumOpeningDeposit());
 				productMo.setMinimumBalance(productDo.getMinimumBalance());
 				productMo.setOverdraftLimit(productDo.getOverdraftLimit());
+				productMo.setOverdraftFee(productDo.getOverdraftFee());
 				productMo.setApy(productDo.getApy());
 
 				// Set the product on the response

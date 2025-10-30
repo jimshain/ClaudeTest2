@@ -18,6 +18,7 @@ public class DdaProductDo {
     private Integer minimumOpeningDeposit;
     private Integer minimumBalance;
     private Integer overdraftLimit;
+    private Integer overdraftFee;
     private BigDecimal apy;
     private LocalDateTime insertDate;
     private LocalDateTime updateDate;
@@ -102,6 +103,14 @@ public class DdaProductDo {
 
     public void setOverdraftLimit(Integer overdraftLimit) {
         this.overdraftLimit = overdraftLimit;
+    }
+
+    public Integer getOverdraftFee() {
+        return overdraftFee;
+    }
+
+    public void setOverdraftFee(Integer overdraftFee) {
+        this.overdraftFee = overdraftFee;
     }
 
     public BigDecimal getApy() {

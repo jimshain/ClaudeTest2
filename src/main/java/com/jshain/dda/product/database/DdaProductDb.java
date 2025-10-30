@@ -19,26 +19,26 @@ public class DdaProductDb {
 
     private static final String INSERT_SQL =
         "INSERT INTO " + TABLE_NAME + " (holding_company_id, bank_id, branch_id, product_id, " +
-        "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
+        "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, overdraft_fee, apy, " +
         "insert_date, update_date, updated_by) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SELECT_ALL_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
-        "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
+        "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, overdraft_fee, apy, " +
         "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
         "WHERE (delete_flag = 0 OR delete_flag IS NULL)";
 
     private static final String SELECT_BY_ID_SQL =
         "SELECT holding_company_id, bank_id, branch_id, product_id, " +
-        "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, apy, " +
+        "product_description, minimum_opening_deposit, minimum_balance, overdraft_limit, overdraft_fee, apy, " +
         "insert_date, update_date, updated_by FROM " + TABLE_NAME + " " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ? " +
         "AND (delete_flag = 0 OR delete_flag IS NULL)";
 
     private static final String UPDATE_SQL =
         "UPDATE " + TABLE_NAME + " SET holding_company_id = ?, bank_id = ?, branch_id = ?, product_id = ?, " +
-        "product_description = ?, minimum_opening_deposit = ?, minimum_balance = ?, overdraft_limit = ?, " +
+        "product_description = ?, minimum_opening_deposit = ?, minimum_balance = ?, overdraft_limit = ?, overdraft_fee = ?, " +
         "apy = ?, update_date = ?, updated_by = ? " +
         "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ?";
 
@@ -67,10 +67,11 @@ public class DdaProductDb {
             stmt.setInt(6, product.getMinimumOpeningDeposit());
             stmt.setInt(7, product.getMinimumBalance());
             stmt.setInt(8, product.getOverdraftLimit());
-            stmt.setBigDecimal(9, product.getApy());
-            stmt.setTimestamp(10, Timestamp.valueOf(now));
+            stmt.setInt(9, product.getOverdraftFee());
+            stmt.setBigDecimal(10, product.getApy());
             stmt.setTimestamp(11, Timestamp.valueOf(now));
-            stmt.setString(12, product.getUpdatedBy());
+            stmt.setTimestamp(12, Timestamp.valueOf(now));
+            stmt.setString(13, product.getUpdatedBy());
             return stmt.executeUpdate();
         }
     }
@@ -96,6 +97,7 @@ public class DdaProductDb {
                 product.setMinimumOpeningDeposit(rs.getInt("minimum_opening_deposit"));
                 product.setMinimumBalance(rs.getInt("minimum_balance"));
                 product.setOverdraftLimit(rs.getInt("overdraft_limit"));
+                product.setOverdraftFee(rs.getInt("overdraft_fee"));
                 product.setApy(rs.getBigDecimal("apy"));
                 Timestamp insertTimestamp = rs.getTimestamp("insert_date");
                 product.setInsertDate(insertTimestamp != null ? insertTimestamp.toLocalDateTime() : null);
@@ -138,6 +140,7 @@ public class DdaProductDb {
                     product.setMinimumOpeningDeposit(rs.getInt("minimum_opening_deposit"));
                     product.setMinimumBalance(rs.getInt("minimum_balance"));
                     product.setOverdraftLimit(rs.getInt("overdraft_limit"));
+                    product.setOverdraftFee(rs.getInt("overdraft_fee"));
                     product.setApy(rs.getBigDecimal("apy"));
                     Timestamp insertTimestamp = rs.getTimestamp("insert_date");
                     product.setInsertDate(insertTimestamp != null ? insertTimestamp.toLocalDateTime() : null);
@@ -175,15 +178,16 @@ public class DdaProductDb {
             stmt.setInt(6, newProduct.getMinimumOpeningDeposit());
             stmt.setInt(7, newProduct.getMinimumBalance());
             stmt.setInt(8, newProduct.getOverdraftLimit());
-            stmt.setBigDecimal(9, newProduct.getApy());
-            stmt.setTimestamp(10, Timestamp.valueOf(now));
-            stmt.setString(11, newProduct.getUpdatedBy());
+            stmt.setInt(9, newProduct.getOverdraftFee());
+            stmt.setBigDecimal(10, newProduct.getApy());
+            stmt.setTimestamp(11, Timestamp.valueOf(now));
+            stmt.setString(12, newProduct.getUpdatedBy());
 
             // WHERE clause - old values
-            stmt.setInt(12, oldProduct.getHoldingCompanyId());
-            stmt.setInt(13, oldProduct.getBankId());
-            stmt.setInt(14, oldProduct.getBranchId());
-            stmt.setString(15, oldProduct.getProductId());
+            stmt.setInt(13, oldProduct.getHoldingCompanyId());
+            stmt.setInt(14, oldProduct.getBankId());
+            stmt.setInt(15, oldProduct.getBranchId());
+            stmt.setString(16, oldProduct.getProductId());
 
             return stmt.executeUpdate();
         }
@@ -216,15 +220,16 @@ public class DdaProductDb {
             stmt.setInt(6, updatedProduct.getMinimumOpeningDeposit());
             stmt.setInt(7, updatedProduct.getMinimumBalance());
             stmt.setInt(8, updatedProduct.getOverdraftLimit());
-            stmt.setBigDecimal(9, updatedProduct.getApy());
-            stmt.setTimestamp(10, Timestamp.valueOf(now));
-            stmt.setString(11, updatedProduct.getUpdatedBy());
+            stmt.setInt(9, updatedProduct.getOverdraftFee());
+            stmt.setBigDecimal(10, updatedProduct.getApy());
+            stmt.setTimestamp(11, Timestamp.valueOf(now));
+            stmt.setString(12, updatedProduct.getUpdatedBy());
 
             // WHERE clause - identifiers
-            stmt.setInt(12, holdingCompanyId);
-            stmt.setInt(13, bankId);
-            stmt.setInt(14, branchId);
-            stmt.setString(15, productId);
+            stmt.setInt(13, holdingCompanyId);
+            stmt.setInt(14, bankId);
+            stmt.setInt(15, branchId);
+            stmt.setString(16, productId);
 
             return stmt.executeUpdate();
         }

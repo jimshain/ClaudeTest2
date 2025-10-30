@@ -9,6 +9,7 @@ public class DdaProductMo {
 	private Integer minimumOpeningDeposit;
 	private Integer minimumBalance;
 	private Integer overdraftLimit;
+	private Integer overdraftFee;
 	private BigDecimal apy;
 
 	public DdaProductKey getDdaProductKey() {
@@ -49,6 +50,14 @@ public class DdaProductMo {
 
 	public void setOverdraftLimit(Integer overdraftLimit) {
 		this.overdraftLimit = overdraftLimit;
+	}
+
+	public Integer getOverdraftFee() {
+		return overdraftFee;
+	}
+
+	public void setOverdraftFee(Integer overdraftFee) {
+		this.overdraftFee = overdraftFee;
 	}
 
 	public BigDecimal getApy() {

@@ -37,6 +37,7 @@ paths:
                 minimumOpeningDeposit: 100
                 minimumBalance: 25
                 overdraftLimit: 500
+                overdraftFee: 35
                 apy: 0.0125
       responses:
         '200':
@@ -120,6 +121,7 @@ paths:
                       minimumOpeningDeposit: 100
                       minimumBalance: 25
                       overdraftLimit: 500
+                      overdraftFee: 35
                       apy: 0.0125
                     status:
                       - code: "100"
@@ -244,6 +246,10 @@ components:
           type: integer
           description: Maximum overdraft amount allowed (whole number)
           example: 500
+        overdraftFee:
+          type: integer
+          description: Fee charged for overdraft (whole number)
+          example: 35
         apy:
           type: number
           format: decimal
