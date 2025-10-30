@@ -63,4 +63,18 @@ public class Status {
 		return status;
 	}
 
+	/**
+	 * Returns a Status object representing a not found condition.
+	 * Code: 404, Severity: WARN, Message: Record not found
+	 *
+	 * @return Status object with not found values
+	 */
+	public static Status getNotFound() {
+		Status status = new Status();
+		status.setCode("404");
+		status.setSeverity(SEVERITY_WARN);
+		status.setMessage("Record not found");
+		return status;
+	}
+
 } // Class end

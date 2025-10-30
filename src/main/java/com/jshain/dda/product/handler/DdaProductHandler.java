@@ -197,6 +197,11 @@ public class DdaProductHandler {
 
 				// Add success status
 				ddaProductInqRs.getStatus().add(Status.getSuccess());
+			} else {
+				// Product not found - return not found status
+				ddaProductInqRs = new DdaProductInqRs();
+				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
+				ddaProductInqRs.getStatus().add(Status.getNotFound());
 			}
 		}
 
