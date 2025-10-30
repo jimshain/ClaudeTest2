@@ -29,9 +29,9 @@ paths:
               rquid: "REQ-12345-67890"
               ddaProduct:
                 ddaProductKey:
-                  holdingCompanyId: "CORP"
-                  bankId: "BANK"
-                  branchId: "BR01"
+                  holdingCompanyId: 1001
+                  bankId: 2001
+                  branchId: 3001
                   productId: "CHK1"
                 description: "Premium Checking Account"
                 minimumOpeningDeposit: 100.00
@@ -59,12 +59,12 @@ paths:
                   value:
                     rquid: "REQ-12345-67890"
                     status:
-                      - code: "201"
+                      - code: "200"
                         severity: "ERROR"
-                        message: "Holding Company ID exceeds maximum length of 4 characters"
-                      - code: "203"
+                        message: "Holding Company ID is required"
+                      - code: "208"
                         severity: "ERROR"
-                        message: "Bank ID exceeds maximum length of 4 characters"
+                        message: "Product description exceeds maximum length of 255 characters"
         '400':
           description: Missing request body
           content:
@@ -94,9 +94,9 @@ paths:
             example:
               rquid: "REQ-12345-67891"
               ddaProductKey:
-                holdingCompanyId: "CORP"
-                bankId: "BANK"
-                branchId: "BR01"
+                holdingCompanyId: 1001
+                bankId: 2001
+                branchId: 3001
                 productId: "CHK1"
       responses:
         '200':
@@ -112,9 +112,9 @@ paths:
                     rquid: "REQ-12345-67891"
                     ddaProduct:
                       ddaProductKey:
-                        holdingCompanyId: "CORP"
-                        bankId: "BANK"
-                        branchId: "BR01"
+                        holdingCompanyId: 1001
+                        bankId: 2001
+                        branchId: 3001
                         productId: "CHK1"
                       description: "Premium Checking Account"
                       minimumOpeningDeposit: 100.00
@@ -162,9 +162,9 @@ paths:
             example:
               rquid: "REQ-12345-67892"
               ddaProductKey:
-                holdingCompanyId: "CORP"
-                bankId: "BANK"
-                branchId: "BR01"
+                holdingCompanyId: 1001
+                bankId: 2001
+                branchId: 3001
                 productId: "CHK1"
       responses:
         '200':
@@ -203,20 +203,17 @@ components:
         - productId
       properties:
         holdingCompanyId:
-          type: string
-          maxLength: 4
+          type: integer
           description: Holding company identifier
-          example: "CORP"
+          example: 1001
         bankId:
-          type: string
-          maxLength: 4
+          type: integer
           description: Bank identifier
-          example: "BANK"
+          example: 2001
         branchId:
-          type: string
-          maxLength: 4
+          type: integer
           description: Branch identifier
-          example: "BR01"
+          example: 3001
         productId:
           type: string
           maxLength: 4

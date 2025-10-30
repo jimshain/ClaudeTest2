@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
  */
 public class DdaProductDo {
     // Key attributes
-    private String holdingCompanyId;
-    private String bankId;
-    private String branchId;
+    private Integer holdingCompanyId;
+    private Integer bankId;
+    private Integer branchId;
     private String productId;
 
     // Non-key attributes
@@ -32,7 +32,7 @@ public class DdaProductDo {
     /**
      * Constructor with all fields
      */
-    public DdaProductDo(String holdingCompanyId, String bankId, String branchId, String productId) {
+    public DdaProductDo(Integer holdingCompanyId, Integer bankId, Integer branchId, String productId) {
         this.holdingCompanyId = holdingCompanyId;
         this.bankId = bankId;
         this.branchId = branchId;
@@ -40,27 +40,27 @@ public class DdaProductDo {
     }
 
     // Getters and Setters
-    public String getHoldingCompanyId() {
+    public Integer getHoldingCompanyId() {
         return holdingCompanyId;
     }
 
-    public void setHoldingCompanyId(String holdingCompanyId) {
+    public void setHoldingCompanyId(Integer holdingCompanyId) {
         this.holdingCompanyId = holdingCompanyId;
     }
 
-    public String getBankId() {
+    public Integer getBankId() {
         return bankId;
     }
 
-    public void setBankId(String bankId) {
+    public void setBankId(Integer bankId) {
         this.bankId = bankId;
     }
 
-    public String getBranchId() {
+    public Integer getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(String branchId) {
+    public void setBranchId(Integer branchId) {
         this.branchId = branchId;
     }
 

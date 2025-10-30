@@ -1,7 +1,7 @@
 CREATE TABLE dda_product (
-    holding_company_id TEXT NOT NULL,
-    bank_id TEXT NOT NULL,
-    branch_id TEXT NOT NULL,
+    holding_company_id INTEGER NOT NULL,
+    bank_id INTEGER NOT NULL,
+    branch_id INTEGER NOT NULL,
     product_id TEXT NOT NULL,
     product_description TEXT,
     minimum_opening_deposit NUMERIC,

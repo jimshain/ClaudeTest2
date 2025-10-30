@@ -3,33 +3,33 @@ package com.jshain.dda.product.message;
 import java.time.LocalDateTime;
 
 public class DdaProductKey {
-	private String holdingCompanyId;
-	private String bankId;
-	private String branchId;
+	private Integer holdingCompanyId;
+	private Integer bankId;
+	private Integer branchId;
 	private String productId;
 	private LocalDateTime effectiveDate;
 
-	public String getHoldingCompanyId() {
+	public Integer getHoldingCompanyId() {
 		return holdingCompanyId;
 	}
 
-	public void setHoldingCompanyId(String holdingCompanyId) {
+	public void setHoldingCompanyId(Integer holdingCompanyId) {
 		this.holdingCompanyId = holdingCompanyId;
 	}
 
-	public String getBankId() {
+	public Integer getBankId() {
 		return bankId;
 	}
 
-	public void setBankId(String bankId) {
+	public void setBankId(Integer bankId) {
 		this.bankId = bankId;
 	}
 
-	public String getBranchId() {
+	public Integer getBranchId() {
 		return branchId;
 	}
 
-	public void setBranchId(String branchId) {
+	public void setBranchId(Integer branchId) {
 		this.branchId = branchId;
 	}
 

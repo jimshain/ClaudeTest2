@@ -38,51 +38,30 @@ public class DdaProductHandler {
 			// Map key fields
 			DdaProductKey key = productMo.getDdaProductKey();
 
-			// Perform length validations
-			if (key.getHoldingCompanyId() == null || key.getHoldingCompanyId().trim().isEmpty()) {
+			// Perform field validations
+			if (key.getHoldingCompanyId() == null) {
 				Status status = new Status();
 				status.setCode("200");
 				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Holding Company ID is required");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
-			} else if (key.getHoldingCompanyId().length() > 4) {
-				Status status = new Status();
-				status.setCode("201");
-				status.setSeverity(Status.SEVERITY_ERROR);
-				status.setMessage("Holding Company ID exceeds maximum length of 4 characters");
-				ddaProductAddRs.getStatus().add(status);
-				validationPassed = false;
 			}
 
-			if (key.getBankId() == null || key.getBankId().trim().isEmpty()) {
+			if (key.getBankId() == null) {
 				Status status = new Status();
 				status.setCode("202");
 				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Bank ID is required");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
-			} else if (key.getBankId().length() > 4) {
-				Status status = new Status();
-				status.setCode("203");
-				status.setSeverity(Status.SEVERITY_ERROR);
-				status.setMessage("Bank ID exceeds maximum length of 4 characters");
-				ddaProductAddRs.getStatus().add(status);
-				validationPassed = false;
 			}
 
-			if (key.getBranchId() == null || key.getBranchId().trim().isEmpty()) {
+			if (key.getBranchId() == null) {
 				Status status = new Status();
 				status.setCode("204");
 				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Branch ID is required");
-				ddaProductAddRs.getStatus().add(status);
-				validationPassed = false;
-			} else if (key.getBranchId().length() > 4) {
-				Status status = new Status();
-				status.setCode("205");
-				status.setSeverity(Status.SEVERITY_ERROR);
-				status.setMessage("Branch ID exceeds maximum length of 4 characters");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
 			}
