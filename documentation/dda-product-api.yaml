@@ -1,0 +1,374 @@
+openapi: 3.0.0
+info:
+  title: DDA Product API
+  description: API for managing DDA (Demand Deposit Account) products
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /ddaproductadd:
+    post:
+      summary: Add a new DDA product
+      description: Creates a new DDA product with validation of all required fields
+      operationId: addDdaProduct
+      tags:
+        - DDA Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DdaProductAddRq'
+            example:
+              rquid: "REQ-12345-67890"
+              ddaProduct:
+                ddaProductKey:
+                  holdingCompanyId: 1001
+                  bankId: 2001
+                  branchId: 3001
+                  productId: "CHK1"
+                description: "Premium Checking Account"
+                minimumOpeningDeposit: 100
+                minimumBalance: 25
+                overdraftLimit: 500
+                overdraftFee: 35
+                apy: 0.0125
+      responses:
+        '200':
+          description: Product add operation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DdaProductAddRs'
+              examples:
+                success:
+                  summary: Successful product creation
+                  value:
+                    rquid: "REQ-12345-67890"
+                    status:
+                      - code: "100"
+                        severity: "INFO"
+                        message: "Success"
+                validationError:
+                  summary: Validation errors
+                  value:
+                    rquid: "REQ-12345-67890"
+                    status:
+                      - code: "200"
+                        severity: "ERROR"
+                        message: "Holding Company ID is required"
+                      - code: "208"
+                        severity: "ERROR"
+                        message: "Product description exceeds maximum length of 255 characters"
+        '400':
+          description: Missing request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /ddaproductinq:
+    post:
+      summary: Inquire DDA product details
+      description: Retrieves details of a DDA product by its composite key
+      operationId: inquireDdaProduct
+      tags:
+        - DDA Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DdaProductInqRq'
+            example:
+              rquid: "REQ-12345-67891"
+              ddaProductKey:
+                holdingCompanyId: 1001
+                bankId: 2001
+                branchId: 3001
+                productId: "CHK1"
+      responses:
+        '200':
+          description: Product inquiry operation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DdaProductInqRs'
+              examples:
+                success:
+                  summary: Product found
+                  value:
+                    rquid: "REQ-12345-67891"
+                    ddaProduct:
+                      ddaProductKey:
+                        holdingCompanyId: 1001
+                        bankId: 2001
+                        branchId: 3001
+                        productId: "CHK1"
+                      description: "Premium Checking Account"
+                      minimumOpeningDeposit: 100
+                      minimumBalance: 25
+                      overdraftLimit: 500
+                      overdraftFee: 35
+                      apy: 0.0125
+                    status:
+                      - code: "100"
+                        severity: "INFO"
+                        message: "Success"
+                notFound:
+                  summary: Product not found
+                  value:
+                    rquid: "REQ-12345-67891"
+                    status:
+                      - code: "404"
+                        severity: "WARN"
+                        message: "Record not found"
+        '400':
+          description: Missing request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /ddaproductdel:
+    post:
+      summary: Delete a DDA product
+      description: Soft deletes a DDA product by setting its delete flag
+      operationId: deleteDdaProduct
+      tags:
+        - DDA Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DdaProductDelRq'
+            example:
+              rquid: "REQ-12345-67892"
+              ddaProductKey:
+                holdingCompanyId: 1001
+                bankId: 2001
+                branchId: 3001
+                productId: "CHK1"
+      responses:
+        '200':
+          description: Product delete operation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DdaProductDelRs'
+              example:
+                rquid: "REQ-12345-67892"
+                status:
+                  - code: "100"
+                    severity: "INFO"
+                    message: "Success"
+        '400':
+          description: Missing request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    DdaProductKey:
+      type: object
+      required:
+        - holdingCompanyId
+        - bankId
+        - branchId
+        - productId
+      properties:
+        holdingCompanyId:
+          type: integer
+          description: Holding company identifier
+          example: 1001
+        bankId:
+          type: integer
+          description: Bank identifier
+          example: 2001
+        branchId:
+          type: integer
+          description: Branch identifier
+          example: 3001
+        productId:
+          type: string
+          maxLength: 4
+          description: Product identifier
+          example: "CHK1"
+
+    DdaProductMo:
+      type: object
+      required:
+        - ddaProductKey
+      properties:
+        ddaProductKey:
+          $ref: '#/components/schemas/DdaProductKey'
+        description:
+          type: string
+          maxLength: 255
+          description: Product description
+          example: "Premium Checking Account"
+        minimumOpeningDeposit:
+          type: integer
+          description: Minimum deposit required to open account (whole number)
+          example: 100
+        minimumBalance:
+          type: integer
+          description: Minimum balance to maintain (whole number)
+          example: 25
+        overdraftLimit:
+          type: integer
+          description: Maximum overdraft amount allowed (whole number)
+          example: 500
+        overdraftFee:
+          type: integer
+          description: Fee charged for overdraft (whole number)
+          example: 35
+        apy:
+          type: number
+          format: decimal
+          description: Annual Percentage Yield
+          example: 0.0125
+
+    Status:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Status code
+          example: "100"
+        severity:
+          type: string
+          enum: [INFO, WARN, ERROR, FATAL]
+          description: Severity level
+          example: "INFO"
+        message:
+          type: string
+          description: Status message
+          example: "Success"
+
+    DdaProductAddRq:
+      type: object
+      required:
+        - rquid
+        - ddaProduct
+      properties:
+        rquid:
+          type: string
+          description: Unique request identifier
+          example: "REQ-12345-67890"
+        ddaProduct:
+          $ref: '#/components/schemas/DdaProductMo'
+
+    DdaProductAddRs:
+      type: object
+      properties:
+        rquid:
+          type: string
+          description: Unique request identifier (echoed from request)
+          example: "REQ-12345-67890"
+        status:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+          description: List of status messages
+
+    DdaProductInqRq:
+      type: object
+      required:
+        - rquid
+        - ddaProductKey
+      properties:
+        rquid:
+          type: string
+          description: Unique request identifier
+          example: "REQ-12345-67891"
+        ddaProductKey:
+          $ref: '#/components/schemas/DdaProductKey'
+
+    DdaProductInqRs:
+      type: object
+      properties:
+        rquid:
+          type: string
+          description: Unique request identifier (echoed from request)
+          example: "REQ-12345-67891"
+        ddaProduct:
+          $ref: '#/components/schemas/DdaProductMo'
+        status:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+          description: List of status messages
+
+    DdaProductDelRq:
+      type: object
+      required:
+        - rquid
+        - ddaProductKey
+      properties:
+        rquid:
+          type: string
+          description: Unique request identifier
+          example: "REQ-12345-67892"
+        ddaProductKey:
+          $ref: '#/components/schemas/DdaProductKey'
+
+    DdaProductDelRs:
+      type: object
+      properties:
+        rquid:
+          type: string
+          description: Unique request identifier (echoed from request)
+          example: "REQ-12345-67892"
+        status:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+          description: List of status messages
+
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "800"
+            severity:
+              type: string
+              example: "ERROR"
+            description:
+              type: string
+              example: "Missing message body"
+
+tags:
+  - name: DDA Products
+    description: Operations for managing DDA products

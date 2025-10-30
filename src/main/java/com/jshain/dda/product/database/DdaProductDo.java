@@ -8,16 +8,17 @@ import java.time.LocalDateTime;
  */
 public class DdaProductDo {
     // Key attributes
-    private String holdingCompanyId;
-    private String bankId;
-    private String branchId;
+    private Integer holdingCompanyId;
+    private Integer bankId;
+    private Integer branchId;
     private String productId;
 
     // Non-key attributes
     private String productDescription;
-    private BigDecimal minimumOpeningDeposit;
-    private BigDecimal minimumBalance;
-    private BigDecimal overdraftLimit;
+    private Integer minimumOpeningDeposit;
+    private Integer minimumBalance;
+    private Integer overdraftLimit;
+    private Integer overdraftFee;
     private BigDecimal apy;
     private LocalDateTime insertDate;
     private LocalDateTime updateDate;
@@ -32,7 +33,7 @@ public class DdaProductDo {
     /**
      * Constructor with all fields
      */
-    public DdaProductDo(String holdingCompanyId, String bankId, String branchId, String productId) {
+    public DdaProductDo(Integer holdingCompanyId, Integer bankId, Integer branchId, String productId) {
         this.holdingCompanyId = holdingCompanyId;
         this.bankId = bankId;
         this.branchId = branchId;
@@ -40,27 +41,27 @@ public class DdaProductDo {
     }
 
     // Getters and Setters
-    public String getHoldingCompanyId() {
+    public Integer getHoldingCompanyId() {
         return holdingCompanyId;
     }
 
-    public void setHoldingCompanyId(String holdingCompanyId) {
+    public void setHoldingCompanyId(Integer holdingCompanyId) {
         this.holdingCompanyId = holdingCompanyId;
     }
 
-    public String getBankId() {
+    public Integer getBankId() {
         return bankId;
     }
 
-    public void setBankId(String bankId) {
+    public void setBankId(Integer bankId) {
         this.bankId = bankId;
     }
 
-    public String getBranchId() {
+    public Integer getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(String branchId) {
+    public void setBranchId(Integer branchId) {
         this.branchId = branchId;
     }
 
@@ -80,28 +81,36 @@ public class DdaProductDo {
         this.productDescription = productDescription;
     }
 
-    public BigDecimal getMinimumOpeningDeposit() {
+    public Integer getMinimumOpeningDeposit() {
         return minimumOpeningDeposit;
     }
 
-    public void setMinimumOpeningDeposit(BigDecimal minimumOpeningDeposit) {
+    public void setMinimumOpeningDeposit(Integer minimumOpeningDeposit) {
         this.minimumOpeningDeposit = minimumOpeningDeposit;
     }
 
-    public BigDecimal getMinimumBalance() {
+    public Integer getMinimumBalance() {
         return minimumBalance;
     }
 
-    public void setMinimumBalance(BigDecimal minimumBalance) {
+    public void setMinimumBalance(Integer minimumBalance) {
         this.minimumBalance = minimumBalance;
     }
 
-    public BigDecimal getOverdraftLimit() {
+    public Integer getOverdraftLimit() {
         return overdraftLimit;
     }
 
-    public void setOverdraftLimit(BigDecimal overdraftLimit) {
+    public void setOverdraftLimit(Integer overdraftLimit) {
         this.overdraftLimit = overdraftLimit;
+    }
+
+    public Integer getOverdraftFee() {
+        return overdraftFee;
+    }
+
+    public void setOverdraftFee(Integer overdraftFee) {
+        this.overdraftFee = overdraftFee;
     }
 
     public BigDecimal getApy() {

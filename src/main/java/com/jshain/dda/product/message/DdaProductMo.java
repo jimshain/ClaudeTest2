@@ -6,9 +6,10 @@ public class DdaProductMo {
 	public DdaProductKey ddaProductKey;
 
 	private String description;
-	private BigDecimal minimumOpeningDeposit;
-	private BigDecimal minimumBalance;
-	private BigDecimal overdraftLimit;
+	private Integer minimumOpeningDeposit;
+	private Integer minimumBalance;
+	private Integer overdraftLimit;
+	private Integer overdraftFee;
 	private BigDecimal apy;
 
 	public DdaProductKey getDdaProductKey() {
@@ -27,28 +28,36 @@ public class DdaProductMo {
 		this.description = description;
 	}
 
-	public BigDecimal getMinimumOpeningDeposit() {
+	public Integer getMinimumOpeningDeposit() {
 		return minimumOpeningDeposit;
 	}
 
-	public void setMinimumOpeningDeposit(BigDecimal minimumOpeningDeposit) {
+	public void setMinimumOpeningDeposit(Integer minimumOpeningDeposit) {
 		this.minimumOpeningDeposit = minimumOpeningDeposit;
 	}
 
-	public BigDecimal getMinimumBalance() {
+	public Integer getMinimumBalance() {
 		return minimumBalance;
 	}
 
-	public void setMinimumBalance(BigDecimal minimumBalance) {
+	public void setMinimumBalance(Integer minimumBalance) {
 		this.minimumBalance = minimumBalance;
 	}
 
-	public BigDecimal getOverdraftLimit() {
+	public Integer getOverdraftLimit() {
 		return overdraftLimit;
 	}
 
-	public void setOverdraftLimit(BigDecimal overdraftLimit) {
+	public void setOverdraftLimit(Integer overdraftLimit) {
 		this.overdraftLimit = overdraftLimit;
+	}
+
+	public Integer getOverdraftFee() {
+		return overdraftFee;
+	}
+
+	public void setOverdraftFee(Integer overdraftFee) {
+		this.overdraftFee = overdraftFee;
 	}
 
 	public BigDecimal getApy() {
