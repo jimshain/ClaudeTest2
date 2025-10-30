@@ -36,7 +36,7 @@ paths:
                 description: "Premium Checking Account"
                 minimumOpeningDeposit: 100
                 minimumBalance: 25
-                overdraftLimit: 500.00
+                overdraftLimit: 500
                 apy: 0.0125
       responses:
         '200':
@@ -119,7 +119,7 @@ paths:
                       description: "Premium Checking Account"
                       minimumOpeningDeposit: 100
                       minimumBalance: 25
-                      overdraftLimit: 500.00
+                      overdraftLimit: 500
                       apy: 0.0125
                     status:
                       - code: "100"
@@ -241,10 +241,9 @@ components:
           description: Minimum balance to maintain (whole number)
           example: 25
         overdraftLimit:
-          type: number
-          format: decimal
-          description: Maximum overdraft amount allowed
-          example: 500.00
+          type: integer
+          description: Maximum overdraft amount allowed (whole number)
+          example: 500
         apy:
           type: number
           format: decimal

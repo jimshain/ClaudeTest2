@@ -66,7 +66,7 @@ public class DdaProductDb {
             stmt.setString(5, product.getProductDescription());
             stmt.setInt(6, product.getMinimumOpeningDeposit());
             stmt.setInt(7, product.getMinimumBalance());
-            stmt.setBigDecimal(8, product.getOverdraftLimit());
+            stmt.setInt(8, product.getOverdraftLimit());
             stmt.setBigDecimal(9, product.getApy());
             stmt.setTimestamp(10, Timestamp.valueOf(now));
             stmt.setTimestamp(11, Timestamp.valueOf(now));
@@ -95,7 +95,7 @@ public class DdaProductDb {
                 product.setProductDescription(rs.getString("product_description"));
                 product.setMinimumOpeningDeposit(rs.getInt("minimum_opening_deposit"));
                 product.setMinimumBalance(rs.getInt("minimum_balance"));
-                product.setOverdraftLimit(rs.getBigDecimal("overdraft_limit"));
+                product.setOverdraftLimit(rs.getInt("overdraft_limit"));
                 product.setApy(rs.getBigDecimal("apy"));
                 Timestamp insertTimestamp = rs.getTimestamp("insert_date");
                 product.setInsertDate(insertTimestamp != null ? insertTimestamp.toLocalDateTime() : null);
@@ -137,7 +137,7 @@ public class DdaProductDb {
                     product.setProductDescription(rs.getString("product_description"));
                     product.setMinimumOpeningDeposit(rs.getInt("minimum_opening_deposit"));
                     product.setMinimumBalance(rs.getInt("minimum_balance"));
-                    product.setOverdraftLimit(rs.getBigDecimal("overdraft_limit"));
+                    product.setOverdraftLimit(rs.getInt("overdraft_limit"));
                     product.setApy(rs.getBigDecimal("apy"));
                     Timestamp insertTimestamp = rs.getTimestamp("insert_date");
                     product.setInsertDate(insertTimestamp != null ? insertTimestamp.toLocalDateTime() : null);
@@ -174,7 +174,7 @@ public class DdaProductDb {
             stmt.setString(5, newProduct.getProductDescription());
             stmt.setInt(6, newProduct.getMinimumOpeningDeposit());
             stmt.setInt(7, newProduct.getMinimumBalance());
-            stmt.setBigDecimal(8, newProduct.getOverdraftLimit());
+            stmt.setInt(8, newProduct.getOverdraftLimit());
             stmt.setBigDecimal(9, newProduct.getApy());
             stmt.setTimestamp(10, Timestamp.valueOf(now));
             stmt.setString(11, newProduct.getUpdatedBy());
@@ -215,7 +215,7 @@ public class DdaProductDb {
             stmt.setString(5, updatedProduct.getProductDescription());
             stmt.setInt(6, updatedProduct.getMinimumOpeningDeposit());
             stmt.setInt(7, updatedProduct.getMinimumBalance());
-            stmt.setBigDecimal(8, updatedProduct.getOverdraftLimit());
+            stmt.setInt(8, updatedProduct.getOverdraftLimit());
             stmt.setBigDecimal(9, updatedProduct.getApy());
             stmt.setTimestamp(10, Timestamp.valueOf(now));
             stmt.setString(11, updatedProduct.getUpdatedBy());
