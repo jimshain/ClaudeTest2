@@ -42,14 +42,14 @@ public class DdaProductHandler {
 			if (key.getHoldingCompanyId() == null || key.getHoldingCompanyId().trim().isEmpty()) {
 				Status status = new Status();
 				status.setCode("200");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Holding Company ID is required");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
 			} else if (key.getHoldingCompanyId().length() > 4) {
 				Status status = new Status();
 				status.setCode("201");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Holding Company ID exceeds maximum length of 4 characters");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
@@ -58,14 +58,14 @@ public class DdaProductHandler {
 			if (key.getBankId() == null || key.getBankId().trim().isEmpty()) {
 				Status status = new Status();
 				status.setCode("202");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Bank ID is required");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
 			} else if (key.getBankId().length() > 4) {
 				Status status = new Status();
 				status.setCode("203");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Bank ID exceeds maximum length of 4 characters");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
@@ -74,14 +74,14 @@ public class DdaProductHandler {
 			if (key.getBranchId() == null || key.getBranchId().trim().isEmpty()) {
 				Status status = new Status();
 				status.setCode("204");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Branch ID is required");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
 			} else if (key.getBranchId().length() > 4) {
 				Status status = new Status();
 				status.setCode("205");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Branch ID exceeds maximum length of 4 characters");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
@@ -90,14 +90,14 @@ public class DdaProductHandler {
 			if (key.getProductId() == null || key.getProductId().trim().isEmpty()) {
 				Status status = new Status();
 				status.setCode("206");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Product ID is required");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
 			} else if (key.getProductId().length() > 4) {
 				Status status = new Status();
 				status.setCode("207");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Product ID exceeds maximum length of 4 characters");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
@@ -107,7 +107,7 @@ public class DdaProductHandler {
 			if (productMo.getDescription() != null && productMo.getDescription().length() > 255) {
 				Status status = new Status();
 				status.setCode("208");
-				status.setSeverity("5");
+				status.setSeverity(Status.SEVERITY_ERROR);
 				status.setMessage("Product description exceeds maximum length of 255 characters");
 				ddaProductAddRs.getStatus().add(status);
 				validationPassed = false;
