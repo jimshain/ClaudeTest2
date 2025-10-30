@@ -51,6 +51,8 @@ public class DdaProductServer {
 					}
 
 					String message = ctx.body().asString();
+					
+					System.out.println(message);
 
 					DdaProductAddRq ddaProductAddRq = gson.fromJson(message, DdaProductAddRq.class);
 
@@ -120,6 +122,7 @@ public class DdaProductServer {
 		});
 
 		server.requestHandler(router).listen(8080);
+		System.out.println("Server started.");
 	}
 
 	private static final String MISSING_BODY = """

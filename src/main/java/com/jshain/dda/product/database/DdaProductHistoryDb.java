@@ -1,6 +1,5 @@
 package com.jshain.dda.product.database;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,16 +60,16 @@ public class DdaProductHistoryDb {
             LocalDateTime now = LocalDateTime.now();
 
             // Key attributes (from new product)
-            stmt.setString(1, newProduct.getHoldingCompanyId());
-            stmt.setString(2, newProduct.getBankId());
-            stmt.setString(3, newProduct.getBranchId());
+            stmt.setInt(1, newProduct.getHoldingCompanyId());
+            stmt.setInt(2, newProduct.getBankId());
+            stmt.setInt(3, newProduct.getBranchId());
             stmt.setString(4, newProduct.getProductId());
 
             // Old product attributes
             stmt.setString(5, oldProduct.getProductDescription());
-            stmt.setBigDecimal(6, oldProduct.getMinimumOpeningDeposit());
-            stmt.setBigDecimal(7, oldProduct.getMinimumBalance());
-            stmt.setBigDecimal(8, oldProduct.getOverdraftLimit());
+            stmt.setInt(6, oldProduct.getMinimumOpeningDeposit());
+            stmt.setInt(7, oldProduct.getMinimumBalance());
+            stmt.setInt(8, oldProduct.getOverdraftLimit());
             stmt.setBigDecimal(9, oldProduct.getApy());
             stmt.setTimestamp(10, oldProduct.getInsertDate() != null ? Timestamp.valueOf(oldProduct.getInsertDate()) : null);
             stmt.setTimestamp(11, oldProduct.getUpdateDate() != null ? Timestamp.valueOf(oldProduct.getUpdateDate()) : null);
@@ -78,9 +77,9 @@ public class DdaProductHistoryDb {
 
             // New product attributes
             stmt.setString(13, newProduct.getProductDescription());
-            stmt.setBigDecimal(14, newProduct.getMinimumOpeningDeposit());
-            stmt.setBigDecimal(15, newProduct.getMinimumBalance());
-            stmt.setBigDecimal(16, newProduct.getOverdraftLimit());
+            stmt.setInt(14, newProduct.getMinimumOpeningDeposit());
+            stmt.setInt(15, newProduct.getMinimumBalance());
+            stmt.setInt(16, newProduct.getOverdraftLimit());
             stmt.setBigDecimal(17, newProduct.getApy());
             stmt.setTimestamp(18, newProduct.getInsertDate() != null ? Timestamp.valueOf(newProduct.getInsertDate()) : null);
             stmt.setTimestamp(19, newProduct.getUpdateDate() != null ? Timestamp.valueOf(newProduct.getUpdateDate()) : null);
@@ -153,17 +152,17 @@ public class DdaProductHistoryDb {
         DdaProductHistoryDo record = new DdaProductHistoryDo();
 
         // Extract key attributes
-        String holdingCompanyId = rs.getString("holding_company_id");
-        String bankId = rs.getString("bank_id");
-        String branchId = rs.getString("branch_id");
+        Integer holdingCompanyId = rs.getInt("holding_company_id");
+        Integer bankId = rs.getInt("bank_id");
+        Integer branchId = rs.getInt("branch_id");
         String productId = rs.getString("product_id");
 
         // Create old product
         DdaProductDo oldProduct = new DdaProductDo(holdingCompanyId, bankId, branchId, productId);
         oldProduct.setProductDescription(rs.getString("old_product_description"));
-        oldProduct.setMinimumOpeningDeposit(rs.getBigDecimal("old_minimum_opening_deposit"));
-        oldProduct.setMinimumBalance(rs.getBigDecimal("old_minimum_balance"));
-        oldProduct.setOverdraftLimit(rs.getBigDecimal("old_overdraft_limit"));
+        oldProduct.setMinimumOpeningDeposit(rs.getInt("old_minimum_opening_deposit"));
+        oldProduct.setMinimumBalance(rs.getInt("old_minimum_balance"));
+        oldProduct.setOverdraftLimit(rs.getInt("old_overdraft_limit"));
         oldProduct.setApy(rs.getBigDecimal("old_apy"));
         Timestamp oldInsertTimestamp = rs.getTimestamp("old_insert_date");
         oldProduct.setInsertDate(oldInsertTimestamp != null ? oldInsertTimestamp.toLocalDateTime() : null);
@@ -174,9 +173,9 @@ public class DdaProductHistoryDb {
         // Create new product
         DdaProductDo newProduct = new DdaProductDo(holdingCompanyId, bankId, branchId, productId);
         newProduct.setProductDescription(rs.getString("new_product_description"));
-        newProduct.setMinimumOpeningDeposit(rs.getBigDecimal("new_minimum_opening_deposit"));
-        newProduct.setMinimumBalance(rs.getBigDecimal("new_minimum_balance"));
-        newProduct.setOverdraftLimit(rs.getBigDecimal("new_overdraft_limit"));
+        newProduct.setMinimumOpeningDeposit(rs.getInt("new_minimum_opening_deposit"));
+        newProduct.setMinimumBalance(rs.getInt("new_minimum_balance"));
+        newProduct.setOverdraftLimit(rs.getInt("new_overdraft_limit"));
         newProduct.setApy(rs.getBigDecimal("new_apy"));
         Timestamp newInsertTimestamp = rs.getTimestamp("new_insert_date");
         newProduct.setInsertDate(newInsertTimestamp != null ? newInsertTimestamp.toLocalDateTime() : null);

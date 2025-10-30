@@ -60,18 +60,18 @@ public class DdaProductServerTest {
 
 		// Create the product key
 		DdaProductKey key = new DdaProductKey();
-		key.setHoldingCompanyId("TEST");
-		key.setBankId("BANK");
-		key.setBranchId("BR01");
+		key.setHoldingCompanyId(1);
+		key.setBankId(1);
+		key.setBranchId(1);
 		key.setProductId("CHK1");
 
 		// Create the product message object
 		DdaProductMo productMo = new DdaProductMo();
 		productMo.setDdaProductKey(key);
 		productMo.setDescription("Test Checking Account");
-		productMo.setMinimumOpeningDeposit(new BigDecimal("100.00"));
-		productMo.setMinimumBalance(new BigDecimal("25.00"));
-		productMo.setOverdraftLimit(new BigDecimal("500.00"));
+		productMo.setMinimumOpeningDeposit(Integer.valueOf("100"));
+		productMo.setMinimumBalance(Integer.valueOf("25"));
+		productMo.setOverdraftLimit(Integer.valueOf("500"));
 		productMo.setApy(new BigDecimal("0.0125"));
 
 		// Create the add request
@@ -141,11 +141,11 @@ public class DdaProductServerTest {
 		// Verify non-key fields
 		assertEquals("Test Checking Account", retrievedProduct.getDescription(),
 			"Description should match");
-		assertEquals(0, new BigDecimal("100.00").compareTo(retrievedProduct.getMinimumOpeningDeposit()),
+		assertEquals(0, Integer.valueOf("100").compareTo(retrievedProduct.getMinimumOpeningDeposit()),
 			"Minimum opening deposit should match");
-		assertEquals(0, new BigDecimal("25.00").compareTo(retrievedProduct.getMinimumBalance()),
+		assertEquals(0, Integer.valueOf("25").compareTo(retrievedProduct.getMinimumBalance()),
 			"Minimum balance should match");
-		assertEquals(0, new BigDecimal("500.00").compareTo(retrievedProduct.getOverdraftLimit()),
+		assertEquals(0, Integer.valueOf("500").compareTo(retrievedProduct.getOverdraftLimit()),
 			"Overdraft limit should match");
 		assertEquals(0, new BigDecimal("0.0125").compareTo(retrievedProduct.getApy()),
 			"APY should match");

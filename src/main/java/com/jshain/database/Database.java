@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Database {
 
-	private static final String URL = System.getProperty("db.url", "jdbc:sqlite:ddaproduct.db");
+	private static final String URL = "jdbc:sqlite:product.db";
 
 	/**
 	 * Returns a JDBC connection to the database.

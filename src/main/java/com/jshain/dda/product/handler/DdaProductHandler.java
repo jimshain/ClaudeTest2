@@ -119,6 +119,12 @@ public class DdaProductHandler {
 				// Add success status
 				ddaProductAddRs.getStatus().add(Status.getSuccess());
 			}
+		} else {
+			Status status = new Status();
+			status.setCode("206");
+			status.setSeverity(Status.SEVERITY_ERROR);
+			status.setMessage("ddaProduct is required");
+			ddaProductAddRs.getStatus().add(status);
 		}
 
 		} catch (Exception e) {

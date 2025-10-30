@@ -1,12 +1,13 @@
 package com.jshain.dda.product.database;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,10 +143,8 @@ public class DdaProductDb {
                     product.setOverdraftLimit(rs.getInt("overdraft_limit"));
                     product.setOverdraftFee(rs.getInt("overdraft_fee"));
                     product.setApy(rs.getBigDecimal("apy"));
-                    Timestamp insertTimestamp = rs.getTimestamp("insert_date");
-                    product.setInsertDate(insertTimestamp != null ? insertTimestamp.toLocalDateTime() : null);
-                    Timestamp updateTimestamp = rs.getTimestamp("update_date");
-                    product.setUpdateDate(updateTimestamp != null ? updateTimestamp.toLocalDateTime() : null);
+                    product.setInsertDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(rs.getLong("insert_date")), ZoneId.systemDefault()));
+                    product.setUpdateDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(rs.getLong("update_date")), ZoneId.systemDefault()));
                     product.setUpdatedBy(rs.getString("updated_by"));
                     return product;
                 }
