@@ -34,8 +34,8 @@ paths:
                   branchId: 3001
                   productId: "CHK1"
                 description: "Premium Checking Account"
-                minimumOpeningDeposit: 100.00
-                minimumBalance: 25.00
+                minimumOpeningDeposit: 100
+                minimumBalance: 25
                 overdraftLimit: 500.00
                 apy: 0.0125
       responses:
@@ -117,8 +117,8 @@ paths:
                         branchId: 3001
                         productId: "CHK1"
                       description: "Premium Checking Account"
-                      minimumOpeningDeposit: 100.00
-                      minimumBalance: 25.00
+                      minimumOpeningDeposit: 100
+                      minimumBalance: 25
                       overdraftLimit: 500.00
                       apy: 0.0125
                     status:
@@ -233,15 +233,13 @@ components:
           description: Product description
           example: "Premium Checking Account"
         minimumOpeningDeposit:
-          type: number
-          format: decimal
-          description: Minimum deposit required to open account
-          example: 100.00
+          type: integer
+          description: Minimum deposit required to open account (whole number)
+          example: 100
         minimumBalance:
-          type: number
-          format: decimal
-          description: Minimum balance to maintain
-          example: 25.00
+          type: integer
+          description: Minimum balance to maintain (whole number)
+          example: 25
         overdraftLimit:
           type: number
           format: decimal

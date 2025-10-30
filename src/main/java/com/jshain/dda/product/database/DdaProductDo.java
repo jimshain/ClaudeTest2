@@ -15,8 +15,8 @@ public class DdaProductDo {
 
     // Non-key attributes
     private String productDescription;
-    private BigDecimal minimumOpeningDeposit;
-    private BigDecimal minimumBalance;
+    private Integer minimumOpeningDeposit;
+    private Integer minimumBalance;
     private BigDecimal overdraftLimit;
     private BigDecimal apy;
     private LocalDateTime insertDate;
@@ -80,19 +80,19 @@ public class DdaProductDo {
         this.productDescription = productDescription;
     }
 
-    public BigDecimal getMinimumOpeningDeposit() {
+    public Integer getMinimumOpeningDeposit() {
         return minimumOpeningDeposit;
     }
 
-    public void setMinimumOpeningDeposit(BigDecimal minimumOpeningDeposit) {
+    public void setMinimumOpeningDeposit(Integer minimumOpeningDeposit) {
         this.minimumOpeningDeposit = minimumOpeningDeposit;
     }
 
-    public BigDecimal getMinimumBalance() {
+    public Integer getMinimumBalance() {
         return minimumBalance;
     }
 
-    public void setMinimumBalance(BigDecimal minimumBalance) {
+    public void setMinimumBalance(Integer minimumBalance) {
         this.minimumBalance = minimumBalance;
     }
 
