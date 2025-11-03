@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DdaProductList.css';
 
 const DdaProductList = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -89,9 +91,14 @@ const DdaProductList = () => {
     <div className="dda-product-list">
       <div className="header">
         <h1>DDA Product Management</h1>
-        <button onClick={fetchProducts} className="refresh-btn">
-          Refresh
-        </button>
+        <div className="header-buttons">
+          <button onClick={() => navigate('/add')} className="add-btn">
+            Add New Product
+          </button>
+          <button onClick={fetchProducts} className="refresh-btn">
+            Refresh
+          </button>
+        </div>
       </div>
 
       {products.length === 0 ? (
