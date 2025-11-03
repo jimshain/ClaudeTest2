@@ -19,16 +19,16 @@ public class DdaProductHistoryDb {
 
     private static final String INSERT_SQL =
         "INSERT INTO " + TABLE_NAME + " (" +
-        "holding_company_id, bank_id, branch_id, product_id, " +
+        "holding_company_id, bank_id, branch_id, product_id, effective_date, " +
         "old_product_description, old_minimum_opening_deposit, old_minimum_balance, " +
         "old_overdraft_limit, old_overdraft_fee, old_apy, old_insert_date, old_update_date, old_updated_by, " +
         "new_product_description, new_minimum_opening_deposit, new_minimum_balance, " +
         "new_overdraft_limit, new_overdraft_fee, new_apy, new_insert_date, new_update_date, new_updated_by, " +
         "history_insert_date) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SELECT_ALL_SQL =
-        "SELECT holding_company_id, bank_id, branch_id, product_id, " +
+        "SELECT holding_company_id, bank_id, branch_id, product_id, effective_date, " +
         "old_product_description, old_minimum_opening_deposit, old_minimum_balance, " +
         "old_overdraft_limit, old_overdraft_fee, old_apy, old_insert_date, old_update_date, old_updated_by, " +
         "new_product_description, new_minimum_opening_deposit, new_minimum_balance, " +
@@ -36,13 +36,13 @@ public class DdaProductHistoryDb {
         "history_insert_date FROM " + TABLE_NAME + " ORDER BY history_insert_date DESC";
 
     private static final String SELECT_BY_ID_SQL =
-        "SELECT holding_company_id, bank_id, branch_id, product_id, " +
+        "SELECT holding_company_id, bank_id, branch_id, product_id, effective_date, " +
         "old_product_description, old_minimum_opening_deposit, old_minimum_balance, " +
         "old_overdraft_limit, old_overdraft_fee, old_apy, old_insert_date, old_update_date, old_updated_by, " +
         "new_product_description, new_minimum_opening_deposit, new_minimum_balance, " +
         "new_overdraft_limit, new_overdraft_fee, new_apy, new_insert_date, new_update_date, new_updated_by, " +
         "history_insert_date FROM " + TABLE_NAME + " " +
-        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ? " +
+        "WHERE holding_company_id = ? AND bank_id = ? AND branch_id = ? AND product_id = ? AND effective_date = ? " +
         "ORDER BY history_insert_date DESC";
 
     /**
@@ -64,31 +64,32 @@ public class DdaProductHistoryDb {
             stmt.setInt(2, newProduct.getBankId());
             stmt.setInt(3, newProduct.getBranchId());
             stmt.setString(4, newProduct.getProductId());
+            stmt.setTimestamp(5, newProduct.getEffectiveDate() != null ? Timestamp.valueOf(newProduct.getEffectiveDate()) : null);
 
             // Old product attributes
-            stmt.setString(5, oldProduct.getProductDescription());
-            stmt.setInt(6, oldProduct.getMinimumOpeningDeposit());
-            stmt.setInt(7, oldProduct.getMinimumBalance());
-            stmt.setInt(8, oldProduct.getOverdraftLimit());
-            stmt.setInt(9, oldProduct.getOverdraftFee());
-            stmt.setBigDecimal(10, oldProduct.getApy());
-            stmt.setTimestamp(11, oldProduct.getInsertDate() != null ? Timestamp.valueOf(oldProduct.getInsertDate()) : null);
-            stmt.setTimestamp(12, oldProduct.getUpdateDate() != null ? Timestamp.valueOf(oldProduct.getUpdateDate()) : null);
-            stmt.setString(13, oldProduct.getUpdatedBy());
+            stmt.setString(6, oldProduct.getProductDescription());
+            stmt.setInt(7, oldProduct.getMinimumOpeningDeposit());
+            stmt.setInt(8, oldProduct.getMinimumBalance());
+            stmt.setInt(9, oldProduct.getOverdraftLimit());
+            stmt.setInt(10, oldProduct.getOverdraftFee());
+            stmt.setBigDecimal(11, oldProduct.getApy());
+            stmt.setTimestamp(12, oldProduct.getInsertDate() != null ? Timestamp.valueOf(oldProduct.getInsertDate()) : null);
+            stmt.setTimestamp(13, oldProduct.getUpdateDate() != null ? Timestamp.valueOf(oldProduct.getUpdateDate()) : null);
+            stmt.setString(14, oldProduct.getUpdatedBy());
 
             // New product attributes
-            stmt.setString(14, newProduct.getProductDescription());
-            stmt.setInt(15, newProduct.getMinimumOpeningDeposit());
-            stmt.setInt(16, newProduct.getMinimumBalance());
-            stmt.setInt(17, newProduct.getOverdraftLimit());
-            stmt.setInt(18, newProduct.getOverdraftFee());
-            stmt.setBigDecimal(19, newProduct.getApy());
-            stmt.setTimestamp(20, newProduct.getInsertDate() != null ? Timestamp.valueOf(newProduct.getInsertDate()) : null);
-            stmt.setTimestamp(21, newProduct.getUpdateDate() != null ? Timestamp.valueOf(newProduct.getUpdateDate()) : null);
-            stmt.setString(22, newProduct.getUpdatedBy());
+            stmt.setString(15, newProduct.getProductDescription());
+            stmt.setInt(16, newProduct.getMinimumOpeningDeposit());
+            stmt.setInt(17, newProduct.getMinimumBalance());
+            stmt.setInt(18, newProduct.getOverdraftLimit());
+            stmt.setInt(19, newProduct.getOverdraftFee());
+            stmt.setBigDecimal(20, newProduct.getApy());
+            stmt.setTimestamp(21, newProduct.getInsertDate() != null ? Timestamp.valueOf(newProduct.getInsertDate()) : null);
+            stmt.setTimestamp(22, newProduct.getUpdateDate() != null ? Timestamp.valueOf(newProduct.getUpdateDate()) : null);
+            stmt.setString(23, newProduct.getUpdatedBy());
 
             // History insert date
-            stmt.setTimestamp(23, Timestamp.valueOf(now));
+            stmt.setTimestamp(24, Timestamp.valueOf(now));
 
             return stmt.executeUpdate();
         }
@@ -126,13 +127,14 @@ public class DdaProductHistoryDb {
      * @throws SQLException if a database error occurs
      */
     public List<DdaProductHistoryDo> selectById(Connection connection, Integer holdingCompanyId,
-                                                     Integer bankId, Integer branchId, String productId) throws SQLException {
+                                                     Integer bankId, Integer branchId, String productId, LocalDateTime effectiveDate) throws SQLException {
         List<DdaProductHistoryDo> historyRecords = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             stmt.setInt(1, holdingCompanyId);
             stmt.setInt(2, bankId);
             stmt.setInt(3, branchId);
             stmt.setString(4, productId);
+            stmt.setTimestamp(5, effectiveDate != null ? Timestamp.valueOf(effectiveDate) : null);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -158,9 +160,11 @@ public class DdaProductHistoryDb {
         Integer bankId = rs.getInt("bank_id");
         Integer branchId = rs.getInt("branch_id");
         String productId = rs.getString("product_id");
+        Timestamp effectiveTimestamp = rs.getTimestamp("effective_date");
+        LocalDateTime effectiveDate = effectiveTimestamp != null ? effectiveTimestamp.toLocalDateTime() : null;
 
         // Create old product
-        DdaProductDo oldProduct = new DdaProductDo(holdingCompanyId, bankId, branchId, productId);
+        DdaProductDo oldProduct = new DdaProductDo(holdingCompanyId, bankId, branchId, productId, effectiveDate);
         oldProduct.setProductDescription(rs.getString("old_product_description"));
         oldProduct.setMinimumOpeningDeposit(rs.getInt("old_minimum_opening_deposit"));
         oldProduct.setMinimumBalance(rs.getInt("old_minimum_balance"));
@@ -174,7 +178,7 @@ public class DdaProductHistoryDb {
         oldProduct.setUpdatedBy(rs.getString("old_updated_by"));
 
         // Create new product
-        DdaProductDo newProduct = new DdaProductDo(holdingCompanyId, bankId, branchId, productId);
+        DdaProductDo newProduct = new DdaProductDo(holdingCompanyId, bankId, branchId, productId, effectiveDate);
         newProduct.setProductDescription(rs.getString("new_product_description"));
         newProduct.setMinimumOpeningDeposit(rs.getInt("new_minimum_opening_deposit"));
         newProduct.setMinimumBalance(rs.getInt("new_minimum_balance"));

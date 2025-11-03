@@ -101,6 +101,7 @@ public class DdaProductHandler {
 				productDo.setBankId(key.getBankId());
 				productDo.setBranchId(key.getBranchId());
 				productDo.setProductId(key.getProductId());
+				productDo.setEffectiveDate(key.getEffectiveDate());
 
 				// Map non-key fields
 				productDo.setProductDescription(productMo.getDescription());
@@ -136,48 +137,30 @@ public class DdaProductHandler {
 	}
 
 	public DdaProductInqRs inq(DdaProductInqRq ddaProductInqRq) throws SQLException {
-		DdaProductInqRs ddaProductInqRs = null;
+		DdaProductInqRs ddaProductInqRs = new DdaProductInqRs();
+		ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
+
+		// Get database connection
+		Connection connection = Database.getConnection();
 
 		// Extract the key from the request
 		DdaProductKey key = ddaProductInqRq.getDdaProductKey();
 
 		if (key != null) {
-			// Get database connection
-			Connection connection = Database.getConnection();
-
-			// Query the database for the product
+			// Key provided - query for a specific product
 			DdaProductDo productDo = DdaProductDb.selectById(
 				connection,
 				key.getHoldingCompanyId(),
 				key.getBankId(),
 				key.getBranchId(),
-				key.getProductId()
+				key.getProductId(),
+				key.getEffectiveDate()
 			);
 
 			// Map productDo to productMo
 			if (productDo != null) {
-				ddaProductInqRs = new DdaProductInqRs();
-				// Set response rquid from request
-				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
-
 				// Create and populate DdaProductMo
-				DdaProductMo productMo = new DdaProductMo();
-
-				// Create and set key
-				DdaProductKey productKey = new DdaProductKey();
-				productKey.setHoldingCompanyId(productDo.getHoldingCompanyId());
-				productKey.setBankId(productDo.getBankId());
-				productKey.setBranchId(productDo.getBranchId());
-				productKey.setProductId(productDo.getProductId());
-				productMo.setDdaProductKey(productKey);
-
-				// Map non-key fields
-				productMo.setDescription(productDo.getProductDescription());
-				productMo.setMinimumOpeningDeposit(productDo.getMinimumOpeningDeposit());
-				productMo.setMinimumBalance(productDo.getMinimumBalance());
-				productMo.setOverdraftLimit(productDo.getOverdraftLimit());
-				productMo.setOverdraftFee(productDo.getOverdraftFee());
-				productMo.setApy(productDo.getApy());
+				DdaProductMo productMo = mapDoToMo(productDo);
 
 				// Set the product on the response
 				ddaProductInqRs.setDdaProduct(productMo);
@@ -186,13 +169,58 @@ public class DdaProductHandler {
 				ddaProductInqRs.getStatus().add(Status.getSuccess());
 			} else {
 				// Product not found - return not found status
-				ddaProductInqRs = new DdaProductInqRs();
-				ddaProductInqRs.setRquid(ddaProductInqRq.getRquid());
+				ddaProductInqRs.getStatus().add(Status.getNotFound());
+			}
+		} else {
+			// No key provided - return all products
+			java.util.List<DdaProductDo> productDos = DdaProductDb.selectAll(connection);
+
+			if (productDos != null && !productDos.isEmpty()) {
+				java.util.List<DdaProductMo> productMos = new java.util.ArrayList<>();
+
+				// Map each productDo to productMo
+				for (DdaProductDo productDo : productDos) {
+					productMos.add(mapDoToMo(productDo));
+				}
+
+				// Set the products list on the response
+				ddaProductInqRs.setDdaProducts(productMos);
+
+				// Add success status
+				ddaProductInqRs.getStatus().add(Status.getSuccess());
+			} else {
+				// No products found
 				ddaProductInqRs.getStatus().add(Status.getNotFound());
 			}
 		}
 
 		return ddaProductInqRs;
+	}
+
+	/**
+	 * Helper method to map DdaProductDo to DdaProductMo
+	 */
+	private DdaProductMo mapDoToMo(DdaProductDo productDo) {
+		DdaProductMo productMo = new DdaProductMo();
+
+		// Create and set key
+		DdaProductKey productKey = new DdaProductKey();
+		productKey.setHoldingCompanyId(productDo.getHoldingCompanyId());
+		productKey.setBankId(productDo.getBankId());
+		productKey.setBranchId(productDo.getBranchId());
+		productKey.setProductId(productDo.getProductId());
+		productKey.setEffectiveDate(productDo.getEffectiveDate());
+		productMo.setDdaProductKey(productKey);
+
+		// Map non-key fields
+		productMo.setDescription(productDo.getProductDescription());
+		productMo.setMinimumOpeningDeposit(productDo.getMinimumOpeningDeposit());
+		productMo.setMinimumBalance(productDo.getMinimumBalance());
+		productMo.setOverdraftLimit(productDo.getOverdraftLimit());
+		productMo.setOverdraftFee(productDo.getOverdraftFee());
+		productMo.setApy(productDo.getApy());
+
+		return productMo;
 	}
 
 	public DdaProductDelRs del(DdaProductDelRq ddaProductDelRq) throws SQLException {
@@ -214,6 +242,7 @@ public class DdaProductHandler {
 			productDo.setBankId(key.getBankId());
 			productDo.setBranchId(key.getBranchId());
 			productDo.setProductId(key.getProductId());
+			productDo.setEffectiveDate(key.getEffectiveDate());
 
 			// Set updated by field (using request ID)
 			productDo.setUpdatedBy(ddaProductDelRq.getRquid());

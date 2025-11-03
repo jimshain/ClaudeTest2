@@ -33,6 +33,7 @@ paths:
                   bankId: 2001
                   branchId: 3001
                   productId: "CHK1"
+                  effectiveDate: "2024-01-01T00:00:00"
                 description: "Premium Checking Account"
                 minimumOpeningDeposit: 100
                 minimumBalance: 25
@@ -99,6 +100,7 @@ paths:
                 bankId: 2001
                 branchId: 3001
                 productId: "CHK1"
+                effectiveDate: "2024-01-01T00:00:00"
       responses:
         '200':
           description: Product inquiry operation completed
@@ -117,6 +119,7 @@ paths:
                         bankId: 2001
                         branchId: 3001
                         productId: "CHK1"
+                        effectiveDate: "2024-01-01T00:00:00"
                       description: "Premium Checking Account"
                       minimumOpeningDeposit: 100
                       minimumBalance: 25
@@ -168,6 +171,7 @@ paths:
                 bankId: 2001
                 branchId: 3001
                 productId: "CHK1"
+                effectiveDate: "2024-01-01T00:00:00"
       responses:
         '200':
           description: Product delete operation completed
@@ -203,6 +207,7 @@ components:
         - bankId
         - branchId
         - productId
+        - effectiveDate
       properties:
         holdingCompanyId:
           type: integer
@@ -221,6 +226,11 @@ components:
           maxLength: 4
           description: Product identifier
           example: "CHK1"
+        effectiveDate:
+          type: string
+          format: date-time
+          description: Effective date and time for this product version
+          example: "2024-01-01T00:00:00"
 
     DdaProductMo:
       type: object

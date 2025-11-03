@@ -3,6 +3,7 @@ CREATE TABLE dda_product_history (
     bank_id INTEGER NOT NULL,
     branch_id INTEGER NOT NULL,
     product_id TEXT NOT NULL,
+    effective_date TEXT NOT NULL,
     old_product_description TEXT,
     old_minimum_opening_deposit INTEGER,
     old_minimum_balance INTEGER,

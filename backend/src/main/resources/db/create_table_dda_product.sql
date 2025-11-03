@@ -3,6 +3,7 @@ CREATE TABLE dda_product (
     bank_id INTEGER NOT NULL,
     branch_id INTEGER NOT NULL,
     product_id TEXT NOT NULL,
+    effective_date TEXT NOT NULL,
     product_description TEXT,
     minimum_opening_deposit INTEGER,
     minimum_balance INTEGER,
@@ -13,5 +14,5 @@ CREATE TABLE dda_product (
     update_date TEXT DEFAULT CURRENT_TIMESTAMP,
     updated_by TEXT,
     delete_flag INTEGER DEFAULT 0,
-    PRIMARY KEY (holding_company_id, bank_id, branch_id, product_id)
+    PRIMARY KEY (holding_company_id, bank_id, branch_id, product_id, effective_date)
 );
