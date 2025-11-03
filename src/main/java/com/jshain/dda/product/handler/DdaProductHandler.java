@@ -101,6 +101,7 @@ public class DdaProductHandler {
 				productDo.setBankId(key.getBankId());
 				productDo.setBranchId(key.getBranchId());
 				productDo.setProductId(key.getProductId());
+				productDo.setEffectiveDate(key.getEffectiveDate());
 
 				// Map non-key fields
 				productDo.setProductDescription(productMo.getDescription());
@@ -152,7 +153,8 @@ public class DdaProductHandler {
 				key.getHoldingCompanyId(),
 				key.getBankId(),
 				key.getBranchId(),
-				key.getProductId()
+				key.getProductId(),
+				key.getEffectiveDate()
 			);
 
 			// Map productDo to productMo
@@ -207,6 +209,7 @@ public class DdaProductHandler {
 		productKey.setBankId(productDo.getBankId());
 		productKey.setBranchId(productDo.getBranchId());
 		productKey.setProductId(productDo.getProductId());
+		productKey.setEffectiveDate(productDo.getEffectiveDate());
 		productMo.setDdaProductKey(productKey);
 
 		// Map non-key fields
@@ -239,6 +242,7 @@ public class DdaProductHandler {
 			productDo.setBankId(key.getBankId());
 			productDo.setBranchId(key.getBranchId());
 			productDo.setProductId(key.getProductId());
+			productDo.setEffectiveDate(key.getEffectiveDate());
 
 			// Set updated by field (using request ID)
 			productDo.setUpdatedBy(ddaProductDelRq.getRquid());
