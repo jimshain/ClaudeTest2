@@ -12,6 +12,7 @@ public class DdaProductDo {
     private Integer bankId;
     private Integer branchId;
     private String productId;
+    private LocalDateTime effectiveDate;
 
     // Non-key attributes
     private String productDescription;
@@ -31,13 +32,14 @@ public class DdaProductDo {
     }
 
     /**
-     * Constructor with all fields
+     * Constructor with key fields
      */
-    public DdaProductDo(Integer holdingCompanyId, Integer bankId, Integer branchId, String productId) {
+    public DdaProductDo(Integer holdingCompanyId, Integer bankId, Integer branchId, String productId, LocalDateTime effectiveDate) {
         this.holdingCompanyId = holdingCompanyId;
         this.bankId = bankId;
         this.branchId = branchId;
         this.productId = productId;
+        this.effectiveDate = effectiveDate;
     }
 
     // Getters and Setters
@@ -71,6 +73,14 @@ public class DdaProductDo {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public LocalDateTime getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(LocalDateTime effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
     public String getProductDescription() {
@@ -152,6 +162,7 @@ public class DdaProductDo {
                 ", bankId='" + bankId + '\'' +
                 ", branchId='" + branchId + '\'' +
                 ", productId='" + productId + '\'' +
+                ", effectiveDate=" + effectiveDate +
                 ", productDescription='" + productDescription + '\'' +
                 ", minimumOpeningDeposit=" + minimumOpeningDeposit +
                 ", minimumBalance=" + minimumBalance +
@@ -174,7 +185,8 @@ public class DdaProductDo {
             return false;
         if (bankId != null ? !bankId.equals(that.bankId) : that.bankId != null) return false;
         if (branchId != null ? !branchId.equals(that.branchId) : that.branchId != null) return false;
-        return productId != null ? productId.equals(that.productId) : that.productId == null;
+        if (productId != null ? !productId.equals(that.productId) : that.productId != null) return false;
+        return effectiveDate != null ? effectiveDate.equals(that.effectiveDate) : that.effectiveDate == null;
     }
 
     @Override
@@ -183,6 +195,7 @@ public class DdaProductDo {
         result = 31 * result + (bankId != null ? bankId.hashCode() : 0);
         result = 31 * result + (branchId != null ? branchId.hashCode() : 0);
         result = 31 * result + (productId != null ? productId.hashCode() : 0);
+        result = 31 * result + (effectiveDate != null ? effectiveDate.hashCode() : 0);
         return result;
     }
 }
