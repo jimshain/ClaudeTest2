@@ -17,7 +17,8 @@ const DdaProductList = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/ddaproductinq', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${apiUrl}/ddaproductinq`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
