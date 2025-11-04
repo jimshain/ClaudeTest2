@@ -61,7 +61,8 @@ const AddProduct = () => {
         ddaProduct: ddaProduct
       };
 
-      const response = await fetch('/ddaproductadd', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${apiUrl}/ddaproductadd`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -20,6 +20,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 
 public class DdaProductServer {
 
@@ -36,6 +37,16 @@ public class DdaProductServer {
 		HttpServer server = vertx.createHttpServer();
 
 		Router router = Router.router(vertx);
+
+		// Enable CORS for all origins
+		router.route().handler(CorsHandler.create("*")
+			.allowedMethod(io.vertx.core.http.HttpMethod.GET)
+			.allowedMethod(io.vertx.core.http.HttpMethod.POST)
+			.allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS)
+			.allowedHeader("Access-Control-Allow-Method")
+			.allowedHeader("Access-Control-Allow-Origin")
+			.allowedHeader("Access-Control-Allow-Credentials")
+			.allowedHeader("Content-Type"));
 
 		router.route().handler(BodyHandler.create());
 
